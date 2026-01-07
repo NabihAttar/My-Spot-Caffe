@@ -15,7 +15,7 @@
     "gsap": "^3.13.0",
     "imagesloaded": "^5.0.0",
     "isotope-layout": "^3.0.6",
-    "next": "16.0.0",
+    "next": "16.0.10",
     "react": "^19.2.0",
     "react-countup": "^6.5.3",
     "react-datepicker": "^8.8.0",
