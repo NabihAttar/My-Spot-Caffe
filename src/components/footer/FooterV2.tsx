@@ -27,7 +27,7 @@ const FooterV2 = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-6">
-                                <p>&copy; Copyright {(new Date().getFullYear())} Restan. All Rights Reserved by <a href="https://themeforest.net/user/coderstation" target='_blank'>CoderStation</a></p>
+                                <p>&copy; Copyright {(new Date().getFullYear())} My Spot Café. All Rights Reserved by <a href="https://themeforest.net/user/coderstation" target='_blank'>CoderStation</a></p>
                             </div>
                             <div className="col-lg-6 text-end">
                                 <ul>

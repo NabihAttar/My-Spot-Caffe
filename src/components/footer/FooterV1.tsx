@@ -27,7 +27,7 @@ const FooterV1 = () => {
                             </div>
                             <div className="col-lg-6 text-end">
                                 <p>
-                                    &copy; Copyright {(new Date().getFullYear())}. Restan. All Rights Reserved
+                                    &copy; Copyright {(new Date().getFullYear())}. My Spot Café. All Rights Reserved
                                 </p>
                             </div>
                         </div>
