@@ -5,9 +5,9 @@ import Image from 'next/image';
 const FooterV1 = () => {
     return (
         <>
-            <footer>
-                <div className="container">
-                    <div className="footer-style-one bg-dark text-light">
+            <footer >
+                <div className="container" >
+                    <div className="footer-style-one bg-brown text-light" >
                         <FooterRowContent />
                     </div>
                 </div>

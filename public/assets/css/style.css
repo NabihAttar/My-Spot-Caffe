@@ -425,6 +425,9 @@
  .bg-dark {
      background-color: var(--dark) !important;
  }
+ .bg-brown {
+     background-color: #b97e23;
+ }
 
  .bg-dark-secondary {
      background-color: var(--dark-secondary) !important;
@@ -5029,7 +5032,7 @@
  }
 
  .nav.nav-tabs.food-menu-nav button.active {
-     background: var(--color-primary);
+     background: #237098;
      border-color: var(--color-primary);
  }
 

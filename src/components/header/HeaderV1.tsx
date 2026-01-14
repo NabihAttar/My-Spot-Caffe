@@ -22,7 +22,7 @@ const HeaderV1 = () => {
                                 <i className="fa fa-bars"></i>
                             </button>
                             <Link className="navbar-brand" href="/">
-                                <Image src="/assets/img/logo-light.png" width={675} height={332} className="logo logo-display" alt="Logo" />
+                                <Image src="/assets/img/my spot l.png" width={975} height={632} className="logo logo-display" alt="Logo" />
                                 <Image src="/assets/img/logo.png" width={675} height={332} className="logo logo-scrolled" alt="Logo" />
                             </Link>
                         </div>
