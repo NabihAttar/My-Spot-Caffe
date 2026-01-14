@@ -7,7 +7,7 @@ const ContactV1 = () => {
             <div className="contact-style-one-area default-padding overflow-hidden">
                 <div className="container">
                     <div className="row align-center">
-                        <div className="col-lg-10 offset-lg-1">
+                        {/* <div className="col-lg-10 offset-lg-1">
                             <div className="contact-style-one-info">
                                 <ul>
                                     <li data-aos="fade-up" data-aos-delay="100">
@@ -41,7 +41,7 @@ const ContactV1 = () => {
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="col-lg-10 offset-lg-1">
                             <div className="contact-form-style-one">
                                 <div className="heading text-center">

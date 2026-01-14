@@ -29,16 +29,25 @@ const FoodMenuV3 = ({ sectionClass, hasTitle }: DataType) => {
                             <div className="col-lg-12 text-center">
                                 <div className="nav nav-tabs food-menu-nav" id="nav-tab" role="tablist">
                                     <button className="nav-link active" id="nav-id-1" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
-                                        Main Dishes
+                                        Coffee
                                     </button>
                                     <button className="nav-link" id="nav-id-2" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
-                                        Desserts
+                                        Hot non-Coffee 
                                     </button>
                                     <button className="nav-link" id="nav-id-3" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
-                                        Sea Food
+                                        Cold Coffee
                                     </button>
                                     <button className="nav-link" id="nav-id-4" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">
-                                        Beverage
+                                        Cold non-Coffee
+                                    </button>
+                                    <button className="nav-link" id="nav-id-5" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="tab5" aria-selected="false">
+                                        Sandwishes 
+                                    </button>
+                                    <button className="nav-link" id="nav-id-6" data-bs-toggle="tab" data-bs-target="#tab6" type="button" role="tab" aria-controls="tab6" aria-selected="false">
+                                        Desserts
+                                    </button>
+                                    <button className="nav-link" id="nav-id-7" data-bs-toggle="tab" data-bs-target="#tab7" type="button" role="tab" aria-controls="tab7" aria-selected="false">
+                                        Shisha
                                     </button>
                                 </div>
                             </div>

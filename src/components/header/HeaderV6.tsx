@@ -57,7 +57,7 @@ const HeaderV6 = ({ logoWhite }: DataType) => {
                         <div className="attr-right">
                             <div className="attr-nav attr-box">
                                 <ul>
-                                    <HeaderCart />
+                                    {/* <HeaderCart /> */}
                                     <li className="button"><Link href="/contact">Reservation</Link></li>
                                 </ul>
                             </div>

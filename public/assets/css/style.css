@@ -8,7 +8,7 @@
      --font-optional: 'Dancing Script', cursive;
      --fontawesome: "Font Awesome 5 Pro";
      --black: #1f4d65;
-     --dark: #1b1b1b;
+     --dark: #96661c;
      --dark-secondary: #1f4d65;
      --white: #ffffff;
      --color-primary: #1f4d65;
@@ -8358,7 +8358,7 @@
      right: 0;
      content: "";
      height: 30px;
-     background: url(../img/shape/8.png);
+     /* background: url(../img/shape/8.png); */
      top: -11px;
      background-size: 500px;
      background-repeat: repeat-x;

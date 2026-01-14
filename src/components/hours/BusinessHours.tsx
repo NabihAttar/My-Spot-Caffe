@@ -26,24 +26,44 @@ const BusinessHours = () => {
                                         A relaxing and pleasant atmosphere, good jazz, dinner, and cocktails. The Patio Time Bar opens in the center..
                                     </p>
                                     <ul className="opening-hours-table">
-                                        <li>
-                                            <h6>Sunday to Tuesday:</h6> <span>10:00 - 09:00</span>
-                                        </li>
-                                        <li>
-                                            <h6>Wednesday to Thursday:</h6> <span>11:30 - 10:30</span>
-                                        </li>
-                                        <li>
-                                            <h6>Friday & Saturday:</h6> <span>10:30  - 12:00</span>
-                                        </li>
-                                    </ul>
+  <li>
+    <h6>Monday:</h6> <span>9:00 AM - 1:00 AM</span>
+  </li>
+  <li>
+    <h6>Tuesday:</h6> <span>9:00 AM - 1:00 AM</span>
+  </li>
+  <li>
+    <h6>Wednesday:</h6> <span>9:00 AM - 1:00 AM</span>
+  </li>
+  <li>
+    <h6>Thursday:</h6> <span>9:00 AM - 1:00 AM</span>
+  </li>
+  <li>
+    <h6>Friday:</h6> <span>9:00 AM - 1:00 AM</span>
+  </li>
+  <li>
+    <h6>Saturday:</h6> <span>9:00 AM - 1:00 AM</span>
+  </li>
+  <li>
+    <h6>Sunday:</h6> <span>9:00 AM - 1:00 AM</span>
+  </li>
+</ul>
+
+
                                     <div className="call-to-action">
                                         <div className="icon">
                                             <Image src="/assets/img/icon/6.png" alt="Image Not Found" width={64} height={64} />
                                         </div>
                                         <div className="info">
                                             <p>Call Anytime</p>
-                                            <h4><a href="tel:+964733-378901">+964733-378901</a></h4>
-                                        </div>
+                                            <a
+                                                href="https://wa.me/96171592971?text=Hello%20My%20Spot%20Caffe!%20I%27d%20like%20to%20order%20a%20coffee."
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <i style={{ marginRight: 8 }}></i>
+                                                71 592 971
+                                            </a>                                        </div>
                                     </div>
                                 </div>
                             </div>
