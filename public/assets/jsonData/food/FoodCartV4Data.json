@@ -10,7 +10,7 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "14.jpg", "name": "Affogato", "price": "", "priceFull": 2.5, "leftInfo": "Single / strong", "rightInfo": "Hot" },
+          { "id": 1, "thumb": "14.jpg", "name": "Affogato", "price": 3.0, "priceFull": 2.5, "leftInfo": "Single / strong", "rightInfo": "Hot" },
           { "id": 2, "thumb": "14.jpg", "name": "Americano", "price": 3.0, "priceFull": 3.0, "leftInfo": "Espresso / hot water", "rightInfo": "Hot" },
           { "id": 3, "thumb": "14.jpg", "name": "Cappuccino", "price": 3.5, "priceFull": 3.5, "leftInfo": "Milk foam / classic", "rightInfo": "Hot" },
           { "id": 4, "thumb": "14.jpg", "name": "Latte", "price": 3.75, "priceFull": 3.75, "leftInfo": "Milk / smooth", "rightInfo": "Hot" }
