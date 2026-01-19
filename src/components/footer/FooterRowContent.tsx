@@ -10,7 +10,7 @@ const FooterRowContent = () => {
                     <div className="f-item about">
                         <h4 className="widget-title">About Us</h4>
                         <p>
-                            Continued at zealously necessary is Surrounded sir motionless she end literature. Gay direction neglected.
+                            My Spot Café is your neighborhood place for specialty coffee, fresh bites, and calm moments.
                         </p>
                         <ul className="footer-social">
                             <SocialShare />
@@ -22,21 +22,17 @@ const FooterRowContent = () => {
                     <div className="f-item link">
                         <h4 className="widget-title">Explore</h4>
                         <ul>
-                            <li>
+                            <li><Link href="/">Home </Link></li>
+                            
+                            <li><Link href="/food-menu">Menu </Link></li>
+
+                            {/* <li>
                                 <Link href="/about-us">Company Profile</Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <Link href="/about-us">About</Link>
                             </li>
-                            <li>
-                                <Link href="/contact">Help Center</Link>
-                            </li>
-                            <li>
-                                <Link href="/contact">Career</Link>
-                            </li>
-                            <li>
-                                <Link href="/about-us">Features</Link>
-                            </li>
+
                             <li>
                                 <Link href="/contact">Contact</Link>
                             </li>
@@ -52,24 +48,23 @@ const FooterRowContent = () => {
                                 <div className="icon">
                                     <i className="fas fa-map-marker-alt"></i>
                                 </div>
-                                 <div className="col-lg-5 text-end">
-                            <p>
-                                {/* <i className="fas fa-map-marker-alt"></i>{" "} */}
-                                <a
-                                    href="https://maps.app.goo.gl/dzQPx1oz4saUkcRQA"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-reset text-decoration-none"
-                                >
-                                    Ain Borday St, Baalbek, Lebanon    </a>
-                            </p>
-                        </div>
+                                <div className="col-lg-5 text-end">
+                                    <p>
+                                        {/* <i className="fas fa-map-marker-alt"></i>{" "} */}
+                                        <a
+                                            href="https://maps.app.goo.gl/dzQPx1oz4saUkcRQA"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-reset text-decoration-none"
+                                        >Ain Borday St, Baalbek, Lebanon </a>
+                                    </p>
+                                </div>
                             </li>
                             <li>
                                 <div className="icon">
                                     {/* <i className="fas fa-phone"></i> */}
                                 </div>
-                                 <a
+                                <a
                                     href="https://wa.me/96171592971?text=Hello%20My%20Spot%20Caffe!%20I%27d%20like%20to%20order%20a%20coffee."
                                     target="_blank"
                                     rel="noopener noreferrer"

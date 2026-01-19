@@ -6882,14 +6882,14 @@
 
  .fun-fact-list .fun-fact .counter {
      justify-content: left;
-     color: #ff4248;
+     color: #b97e23;
      font-weight: 900;
      margin: 0;
      font-family: var(--font-heading);
  }
 
  .fun-fact-list .fun-fact .counter .timer span {
-     color: #ff4248;
+     color: #b97e23;
  }
 
  .fun-fact-list .fun-fact {
@@ -8540,7 +8540,7 @@
  }
 
  .footer-bottom img {
-     height: 60px;
+     height: 120px;
  }
 
  .footer-bottom {

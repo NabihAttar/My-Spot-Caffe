@@ -22,21 +22,21 @@ const HeaderV1 = () => {
                                 <i className="fa fa-bars"></i>
                             </button>
                             <Link className="navbar-brand" href="/">
-                                <Image src="/assets/img/my spot l.png" width={975} height={632} className="logo logo-display" alt="Logo" />
-                                <Image src="/assets/img/logo.png" width={675} height={332} className="logo logo-scrolled" alt="Logo" />
+                                <Image src="/assets/img/my spot logo white.png" width={975} height={632} className="logo logo-display" alt="Logo" />
+                                <Image src="/assets/img/my spot logo png.png" width={675} height={332} className="logo logo-scrolled" alt="Logo" />
                             </Link>
                         </div>
 
                         <div className={`collapse navbar-collapse collapse-mobile ${isOpen ? "show" : ""}`} id="navbar-menu">
 
-                            <Image src="/assets/img/logo.png" width={675} height={332} alt="Logo" />
+                            <Image src="/assets/img/my spot logo png.png" width={675} height={332} alt="Logo" />
                             <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu" onClick={closeMenu}>
                                 <i className="fa fa-times fa-bars"></i>
                             </button>
 
                             <div className="col-half left">
                                 <ul className="nav navbar-nav navbar-center navbar-left" data-in="fadeInDown" data-out="fadeOutUp">
-                                    <li className={`dropdown megamenu-fw ${isMenuOpen('home-v1') ? 'on' : ''}`}>
+                                    {/* <li className={`dropdown megamenu-fw ${isMenuOpen('home-v1') ? 'on' : ''}`}>
                                         <Link
                                             href="#"
                                             className="dropdown-toggle"
@@ -131,8 +131,10 @@ const HeaderV1 = () => {
                                                 </div>
                                             </li>
                                         </ul>
-                                    </li>
-                                    <li className={`dropdown ${isMenuOpen('pages-v1-left') ? 'on' : ''}`}>
+                                    </li> */}
+                                    <li><Link href="/">Home</Link></li>
+
+                                    {/* <li className={`dropdown ${isMenuOpen('pages-v1-left') ? 'on' : ''}`}>
                                         <Link
                                             href="#"
                                             className="dropdown-toggle"
@@ -185,8 +187,10 @@ const HeaderV1 = () => {
                                                 </ul>
                                             </li>
                                         </ul>
-                                    </li>
-                                    <li className={`dropdown ${isMenuOpen('menu-v1-left') ? 'on' : ''}`}>
+                                    </li> */}
+                                    {/* <li><Link href="/about-us">About Us</Link></li> */}
+
+                                    {/* <li className={`dropdown ${isMenuOpen('menu-v1-left') ? 'on' : ''}`}>
                                         <Link
                                             href="#"
                                             className="dropdown-toggle"
@@ -229,12 +233,14 @@ const HeaderV1 = () => {
                                                 </ul>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li> */}
+                                    <li><Link href="/food-menu">Menu</Link></li>
+
                                 </ul>
                             </div>
                             <div className="col-half right">
                                 <ul className="nav navbar-nav navbar-right">
-                                    <li className={`dropdown ${isMenuOpen('blog-v1-right') ? 'on' : ''}`}>
+                                    {/* <li className={`dropdown ${isMenuOpen('blog-v1-right') ? 'on' : ''}`}>
                                         <Link
                                             href="#"
                                             className="dropdown-toggle"
@@ -283,8 +289,8 @@ const HeaderV1 = () => {
                                                 </ul>
                                             </li>
                                         </ul>
-                                    </li>
-                                    <li className={`dropdown ${isMenuOpen('shop-v1-right') ? 'on' : ''}`}>
+                                    </li> */}
+                                    {/* <li className={`dropdown ${isMenuOpen('shop-v1-right') ? 'on' : ''}`}>
                                         <Link
                                             href="#"
                                             className="dropdown-toggle"
@@ -331,8 +337,10 @@ const HeaderV1 = () => {
                                                 </ul>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li> */}
                                     <li><Link href="/contact">Contact Us</Link></li>
+                                                                        <li><Link href="/about-us">About Us</Link></li>
+
                                 </ul>
                             </div>
                         </div>

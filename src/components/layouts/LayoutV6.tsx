@@ -2,6 +2,7 @@ import HeaderTopV1 from '../header/HeaderTopV1';
 import FooterV1 from '../footer/FooterV1';
 import HeaderV6 from '../header/HeaderV6';
 import BreadCrumb from '../breadCrumb/BreadCrumb';
+import HeaderV1 from '../header/HeaderV1';
 
 interface DataType {
     children: React.ReactNode;
@@ -15,7 +16,7 @@ const LayoutV6 = ({ children, breadCrumb, title, logoWhite }: DataType) => {
         <>
             <div className="wrapper">
                 <HeaderTopV1 />
-                <HeaderV6 logoWhite={logoWhite} />
+                <HeaderV1  />
                 {breadCrumb && <BreadCrumb breadCrumb={breadCrumb} title={title} />}
                 {children}
                 <FooterV1 />

@@ -25,7 +25,7 @@ const Home1 = () => {
                 <BannerV4 />
                 <ProductV1 />
                 <WhyChooseV2 />
-                <FoodCategoryV4 />
+                {/* <FoodCategoryV4 /> */}
                 {/* <FeatureV3 />
                 <WhyChooseV1 />
                 <DealV1 /> */}

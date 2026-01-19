@@ -7,7 +7,7 @@ interface CounterProps {
 
 const Counter = ({ end }: CounterProps) => {
     return (
-        <>
+        < >
             <CountUp end={end} enableScrollSpy />
         </>
     );

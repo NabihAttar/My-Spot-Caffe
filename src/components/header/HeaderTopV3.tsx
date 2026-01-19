@@ -36,8 +36,7 @@ const HeaderTopV3 = ({ sectionClass }: DataType) => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-reset text-decoration-none"
-                                >
-                                    Ain Borday St, Baalbek, Lebanon    </a>
+                                >Ain Borday St, Baalbek, Lebanon</a>
                             </p>
                         </div>
 

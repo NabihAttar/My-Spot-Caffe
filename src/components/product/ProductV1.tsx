@@ -5,14 +5,15 @@ const ProductV1 = () => {
     return (
         <>
             <div className="offer-product-area default-padding"
-                style={{ backgroundImage: 'url(/assets/img/shape/16.png)' }}>
+                style={{ backgroundImage: 'url(/assets/img/shape/CozyCaffe2.png)' }}
+            >
                 <div className="container">
                     <div className="row align-center">
                         <div className="col-lg-6">
                             <div className="offer-product-thumb">
-                                <Image src="/assets/img/illustration/1.png" width={538} height={534} alt="Image not found" />
+                                <Image src="/assets/img/illustration/aboutHome.png" width={538} height={534} alt="Image not found" />
                                 <div className="food-quick-info animate" data-aos="fade-left" data-aos-delay="300">
-                                    <h4><Link href="#">Grilled Steak Platter</Link></h4>
+                                    <h4><Link href="#">Signature Latte</Link></h4>
                                     <div className="rating">
                                         <i className="fas fa-star"></i>
                                         <i className="fas fa-star"></i>
@@ -21,27 +22,29 @@ const ProductV1 = () => {
                                         <i className="fas fa-star-half-alt"></i>
                                     </div>
                                     <ul>
-                                        <li>Steak</li>
-                                        <li>Baguette</li>
-                                        <li>Spanish Onion</li>
-                                        <li>Salt & Pepper</li>
+                                        <li>Double espresso</li>
+                                        <li>Silky steamed milk</li>
+                                        <li>Balanced sweetness</li>
+                                        <li>Available hot or iced</li>
                                     </ul>
-                                    <div className="price">
+                                    {/* <div className="price">
                                         <span><del>$14.00</del> $12.00</span>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-5 offset-lg-1">
                             <div className="offer-product-info">
-                                <h4 className="sub-heading">Daily Offer</h4>
-                                <h2 className="title">Grab This Deal <br /> Before It Finished</h2>
+                                <h4 className="sub-heading">ABOUT US</h4>
+                                <h2 className="title">Your Spot for Specialty <br />Coffee & Calm Moments</h2>
                                 <p>
-                                    New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy son themselves.
+                                    At My Spot Caffè, we believe coffee is a ritual one that deserves care and consistency. From carefully selected beans to perfectly dialed-in espresso, every cup is crafted to taste clean, balanced, and memorable. Whether you’re here to work, meet friends, or take a quiet break, we’ve built a space that feels like yours.
                                 </p>
-                                <Link className="btn circle btn-theme btn-md animation" href="/shop">
-                                    <i className="fas fa-shopping-cart"></i> Order Now
+                                <Link className="btn circle btn-theme btn-md animation" href="/about-us">
+                                    <i className="fas fa-book-open"></i>
+                                    Discover Our Story
                                 </Link>
+
                             </div>
                         </div>
                     </div>

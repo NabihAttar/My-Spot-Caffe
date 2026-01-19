@@ -14,14 +14,14 @@ const FooterV1 = () => {
 
                 <div className="footer-bottom text-light">
                     <div className="footer-bottom-shape">
-                        <Image src="/assets/img/shape/9.png" alt="Image Not Found" width={616} height={800} />
+                        <Image src="/assets/img/shape/european-caffe.png" alt="Image Not Found" width={616} height={800} />
                     </div>
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-6">
                                 <div className="footer-logo">
                                     <Link href="/">
-                                        <Image src="/assets/img/logo-light.png" alt="Logo" width={675} height={332} />
+                                        <Image src="/assets/img/my spot logo white.png" alt="Logo" width={675} height={332} />
                                     </Link>
                                 </div>
                             </div>
