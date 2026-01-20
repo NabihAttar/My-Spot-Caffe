@@ -3,7 +3,7 @@
     "id": 1,
     "tabTitle": "Coffee",
     "tabClass": "show active",
-    "tabThumb": "14.jpg",
+    "tabThumb": "coffe.png",
     "discount": 0,
     "tabId": "tab1",
     "tabContent": [
@@ -31,7 +31,7 @@
     "id": 2,
     "tabTitle": "Hot non-Coffee",
     "tabClass": "",
-    "tabThumb": "14.jpg",
+    "tabThumb": "non-coffe.png",
     "discount": 0,
     "tabId": "tab2",
     "tabContent": [
@@ -59,7 +59,7 @@
     "id": 3,
     "tabTitle": "Cold Coffee",
     "tabClass": "",
-    "tabThumb": "14.jpg",
+    "tabThumb": "cold-coffe.png",
     "discount": 0,
     "tabId": "tab3",
     "tabContent": [
@@ -87,7 +87,7 @@
     "id": 4,
     "tabTitle": "Cold non-Coffee",
     "tabClass": "",
-    "tabThumb": "21.jpg",
+    "tabThumb": "cold-non-coffee.png",
     "discount": 0,
     "tabId": "tab4",
     "tabContent": [
@@ -115,7 +115,7 @@
     "id": 5,
     "tabTitle": "Sandwishes",
     "tabClass": "",
-    "tabThumb": "1.jpg",
+    "tabThumb": "sandwishes.png",
     "discount": 0,
     "tabId": "tab5",
     "tabContent": [
@@ -143,7 +143,7 @@
     "id": 6,
     "tabTitle": "Desserts",
     "tabClass": "",
-    "tabThumb": "6.jpg",
+    "tabThumb": "desserts.png",
     "discount": 0,
     "tabId": "tab6",
     "tabContent": [
@@ -171,7 +171,7 @@
     "id": 7,
     "tabTitle": "Shisha",
     "tabClass": "",
-    "tabThumb": "9.jpg",
+    "tabThumb": "shishaa.png",
     "discount": 0,
     "tabId": "tab7",
     "tabContent": [

@@ -9,26 +9,27 @@ const ReservationV1 = ({ btnClass, sectionClass }: DataType) => {
     return (
         <>
             <div className={`reservation-area default-padding-top bg-cover shadow dark ${sectionClass}`}
-                style={{ backgroundImage: 'url(/assets/img/banner/2.jpg)' }}>
+                style={{ backgroundImage: 'url(/assets/img/banner/reservation.png)' }}
+                >
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="reservation-info text-light">
                                 <h4 className="sub-heading">Reservation</h4>
-                                <h2 className="title">Reservation Your Favorite Private Table</h2>
+                                <h2 className="title">Reserve Your Favorite Table</h2>
                                 <p>
-                                    {`A relaxing and pleasant atmosphere, good jazz, dinner, and cocktails. The Patio Time Bar opens in the center of Florence. The only bar inspired by the 1960s, it will give you a experience that you’ll have a hard time forgetting.`}
+                                    {`My Spot Café is your cozy corner in Baalbek for specialty coffee, fresh bites, and calm moments. Book your table in advance and enjoy your time—whether it’s a morning coffee, a sweet break, or a late-night hangout.`}
                                 </p>
                                 <div className="reservation-time">
                                     <ul>
                                         <li>
-                                            <h4>Launch Menu</h4>
+                                            <h4>Coffee & Drinks</h4>
                                             <p>
-                                                30+ items
+                                                60+ items
                                             </p>
                                         </li>
                                         <li>
-                                            <h4>Dinner Menu</h4>
+                                            <h4>Desserts & Shisha</h4>
                                             <p>
                                                 50+ items
                                             </p>

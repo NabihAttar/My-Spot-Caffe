@@ -17,10 +17,10 @@ const FoodMenuTabV3 = ({ list }: { list: DataType }) => {
     return (
         <>
             <div className="info">
-                <ul className="meal-type">
+                {/* <ul className="meal-type">
                     <li>Half</li>
                     <li>Full</li>
-                </ul>
+                </ul> */}
                 <ul className="meal-items">
                     {list.tabData.map(data =>
                         <SingleFoodMenuTabV3 data={data} key={data.id} />

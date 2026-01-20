@@ -5,14 +5,14 @@ interface DataType {
     id: number
     thumb: string
     name: string
-    price: number
+    // price: number
     priceFull: number
     leftInfo: string
     rightInfo: string
 }
 
 const SingleFoodMenuTabV3 = ({ data }: { data: DataType }) => {
-    const { id, thumb, name, price, priceFull, leftInfo, rightInfo } = data
+    const { id, thumb, name, priceFull, leftInfo, rightInfo } = data
 
     return (
         <>
@@ -26,7 +26,7 @@ const SingleFoodMenuTabV3 = ({ data }: { data: DataType }) => {
                             <h4><Link href={`/shop-single/${id}`}>{name}</Link></h4>
                         </div>
                         <div className="price">
-                            <span>${price}</span>
+                            {/* <span>${price}</span> */}
                             <span>${priceFull}</span>
                         </div>
                     </div>

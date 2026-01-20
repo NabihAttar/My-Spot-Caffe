@@ -4994,7 +4994,7 @@
      content: "";
      height: 50%;
      width: 100%;
-     background: url(../img/shape/3.png);
+     /* background: url(../img/shape/3.png); */
      min-height: 500px;
  }
 

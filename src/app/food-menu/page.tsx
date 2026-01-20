@@ -14,9 +14,9 @@ const FoodMenuPage = () => {
     return (
         <>
             <LayoutV6 breadCrumb="food-menu" title="Food Menu">
-                <FoodMenuV4 />
+                {/* <FoodMenuV4 /> */}
                 {/* <DeliveryV1 /> */}
-                <FoodMenuV5 />
+                {/* <FoodMenuV5 /> */}
                                 <FoodMenuV3 />
 
                 <TestimonialV1 />
