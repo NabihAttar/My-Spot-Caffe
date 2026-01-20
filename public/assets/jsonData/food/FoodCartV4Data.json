@@ -10,10 +10,21 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "14.jpg", "name": "Affogato", "price": 3.0, "priceFull": 2.5, "leftInfo": "Single / strong", "rightInfo": "Hot" },
-          { "id": 2, "thumb": "14.jpg", "name": "Americano", "price": 3.0, "priceFull": 3.0, "leftInfo": "Espresso / hot water", "rightInfo": "Hot" },
-          { "id": 3, "thumb": "14.jpg", "name": "Cappuccino", "price": 3.5, "priceFull": 3.5, "leftInfo": "Milk foam / classic", "rightInfo": "Hot" },
-          { "id": 4, "thumb": "14.jpg", "name": "Latte", "price": 3.75, "priceFull": 3.75, "leftInfo": "Milk / smooth", "rightInfo": "Hot" }
+          { "id": 1, "thumb": "14.jpg", "name": "Affogato", "price": 3.0, "priceFull": 360000, "leftInfo": "Single / strong", "rightInfo": "Hot" },
+          { "id": 2, "thumb": "14.jpg", "name": "Americano", "price": 3.0, "priceFull": 180000, "leftInfo": "Espresso / hot water", "rightInfo": "Hot" },
+          { "id": 3, "thumb": "14.jpg", "name": "Cappuccino", "price": 3.5, "priceFull": 225000, "leftInfo": "Milk foam / classic", "rightInfo": "Hot" },
+          { "id": 4, "thumb": "14.jpg", "name": "Ducle Latte", "price": 3.75, "priceFull": 270000, "leftInfo": "Milk / smooth", "rightInfo": "Hot" },
+          { "id": 5, "thumb": "14.jpg", "name": "Espresso", "price": 3.0, "priceFull": 100000, "leftInfo": "Single / strong", "rightInfo": "Hot" },
+          { "id": 6, "thumb": "14.jpg", "name": "Flat White", "price": 3.0, "priceFull": 180000, "leftInfo": "Espresso / hot water", "rightInfo": "Hot" },
+          { "id": 7, "thumb": "14.jpg", "name": "Latte", "price": 3.5, "priceFull": 225000, "leftInfo": "Milk foam / classic", "rightInfo": "Hot" },
+          { "id": 8, "thumb": "14.jpg", "name": "Macchiato", "price": 3.75, "priceFull": 180000, "leftInfo": "Milk / smooth", "rightInfo": "Hot" },
+          { "id": 9, "thumb": "14.jpg", "name": "Mocha", "price": 3.0, "priceFull": 360000, "leftInfo": "Single / strong", "rightInfo": "Hot" },
+          { "id": 10, "thumb": "14.jpg", "name": "Nescafe", "price": 3.0, "priceFull": 135000, "leftInfo": "Espresso / hot water", "rightInfo": "Hot" },
+          { "id": 11, "thumb": "14.jpg", "name": "Spanish Latte", "price": 3.5, "priceFull": 270000, "leftInfo": "Milk foam / classic", "rightInfo": "Hot" },
+          { "id": 12, "thumb": "14.jpg", "name": "Turkish coffee medium", "price": 3.75, "priceFull": 270000, "leftInfo": "Milk / smooth", "rightInfo": "Hot" },
+          { "id": 13, "thumb": "14.jpg", "name": "Turkish coffee small", "price": 3.0, "priceFull": 180000, "leftInfo": "Single / strong", "rightInfo": "Hot" },
+          { "id": 14, "thumb": "14.jpg", "name": "Vanilla macchiato", "price": 3.0, "priceFull": 270000, "leftInfo": "Espresso / hot water", "rightInfo": "Hot" },
+          { "id": 15, "thumb": "14.jpg", "name": "White chocolate macchiato", "price": 3.5, "priceFull": 360000, "leftInfo": "Milk foam / classic", "rightInfo": "Hot" }
         ]
       },
       {
@@ -122,10 +133,10 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "1.jpg", "name": "Chicken Sandwich", "price": 6.0, "priceFull": 6.0, "leftInfo": "Grilled / sauce", "rightInfo": "Served hot" },
-          { "id": 2, "thumb": "2.jpg", "name": "Turkey & Cheese", "price": 6.5, "priceFull": 6.5, "leftInfo": "Turkey / cheddar", "rightInfo": "Served cold" },
-          { "id": 3, "thumb": "3.jpg", "name": "Tuna Sandwich", "price": 6.0, "priceFull": 6.0, "leftInfo": "Tuna / mayo", "rightInfo": "Served cold" },
-          { "id": 4, "thumb": "4.jpg", "name": "Halloumi Sandwich", "price": 6.5, "priceFull": 6.5, "leftInfo": "Halloumi / veggies", "rightInfo": "Served hot" }
+          { "id": 1, "thumb": "1.jpg", "name": "Habash and Emmental", "price": 6.0, "priceFull": 450000, "leftInfo": "Grilled / sauce", "rightInfo": "Served hot" },
+          { "id": 2, "thumb": "2.jpg", "name": "Labneh", "price": 6.5, "priceFull":300000, "leftInfo": "Turkey / cheddar", "rightInfo": "Served cold" },
+          { "id": 3, "thumb": "3.jpg", "name": "Mortadella and Cheese", "price": 6.0, "priceFull": 350000, "leftInfo": "Tuna / mayo", "rightInfo": "Served cold" },
+          { "id": 4, "thumb": "4.jpg", "name": "Pesto + Mozzarella + tomato", "price": 6.5, "priceFull": 450000, "leftInfo": "Halloumi / veggies", "rightInfo": "Served hot" }
         ]
       },
       {
@@ -150,10 +161,14 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "5.jpg", "name": "Cupcake", "price": 2.5, "priceFull": 2.5, "leftInfo": "Vanilla / chocolate", "rightInfo": "Fresh daily" },
-          { "id": 2, "thumb": "6.jpg", "name": "Brownie", "price": 3.0, "priceFull": 3.0, "leftInfo": "Chocolate", "rightInfo": "Best seller" },
-          { "id": 3, "thumb": "7.jpg", "name": "Muffin", "price": 2.75, "priceFull": 2.75, "leftInfo": "Blueberry / chocolate", "rightInfo": "Fresh daily" },
-          { "id": 4, "thumb": "8.jpg", "name": "Cheesecake", "price": 4.5, "priceFull": 4.5, "leftInfo": "Classic", "rightInfo": "Slice" }
+          { "id": 1, "thumb": "5.jpg", "name": "Brownies", "price": 2.5, "priceFull": 225000, "leftInfo": "Vanilla / chocolate", "rightInfo": "Fresh daily" },
+          { "id": 2, "thumb": "6.jpg", "name": "Canoli", "price": 3.0, "priceFull": 360000, "leftInfo": "Chocolate", "rightInfo": "Best seller" },
+          { "id": 3, "thumb": "7.jpg", "name": "Cheesecake", "price": 2.75, "priceFull": 360000, "leftInfo": "Blueberry / chocolate", "rightInfo": "Fresh daily" },
+          { "id": 4, "thumb": "8.jpg", "name": "Chocolate Cupcake", "price": 4.5, "priceFull": 90000, "leftInfo": "Classic", "rightInfo": "Slice" },
+          { "id": 5, "thumb": "5.jpg", "name": "Pavlova", "price": 2.5, "priceFull": 270000, "leftInfo": "Vanilla / chocolate", "rightInfo": "Fresh daily" },
+          { "id": 6, "thumb": "6.jpg", "name": "Tart", "price": 3.0, "priceFull": 270000, "leftInfo": "Chocolate", "rightInfo": "Best seller" },
+          { "id": 7, "thumb": "7.jpg", "name": "Tiramisu", "price": 2.75, "priceFull": 360000, "leftInfo": "Blueberry / chocolate", "rightInfo": "Fresh daily" },
+          { "id": 8, "thumb": "8.jpg", "name": "Tiramisu balls", "price": 4.5, "priceFull": 45000, "leftInfo": "Classic", "rightInfo": "Slice" }
         ]
       },
       {
@@ -178,10 +193,8 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "9.jpg", "name": "Apple", "price": 8.0, "priceFull": 8.0, "leftInfo": "Classic", "rightInfo": "Shisha" },
-          { "id": 2, "thumb": "10.jpg", "name": "Mint", "price": 8.0, "priceFull": 8.0, "leftInfo": "Fresh", "rightInfo": "Shisha" },
-          { "id": 3, "thumb": "11.jpg", "name": "Grape", "price": 8.0, "priceFull": 8.0, "leftInfo": "Sweet", "rightInfo": "Shisha" },
-          { "id": 4, "thumb": "12.jpg", "name": "Mix Fruits", "price": 9.0, "priceFull": 9.0, "leftInfo": "Mixed flavors", "rightInfo": "Shisha" }
+          { "id": 1, "thumb": "9.jpg", "name": "M3assal", "price": 8.0, "priceFull": 500000, "leftInfo": "Classic", "rightInfo": "Shisha" },
+          { "id": 2, "thumb": "10.jpg", "name": "Ras M3assal", "price": 8.0, "priceFull": 250000, "leftInfo": "Fresh", "rightInfo": "Shisha" }
         ]
       },
       {

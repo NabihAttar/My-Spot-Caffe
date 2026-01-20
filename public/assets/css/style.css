@@ -5123,7 +5123,7 @@
 
  ul.meal-items {
      display: grid;
-     grid-row-gap: 30px;
+     grid-row-gap: 5px;
  }
 
  .food-menus-item .title,

@@ -27,7 +27,7 @@ const SingleFoodMenuTabV3 = ({ data }: { data: DataType }) => {
                         </div>
                         <div className="price">
                             {/* <span>${price}</span> */}
-                            <span>${priceFull}</span>
+                            <span>L.L{priceFull}</span>
                         </div>
                     </div>
                     <div className="bottom">
