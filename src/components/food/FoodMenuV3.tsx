@@ -100,7 +100,7 @@ const FoodMenuV3 = ({ sectionClass, hasTitle }: DataType) => {
           <div className="row">
             <div className="col-lg-8 offset-lg-2">
               <div className="site-heading text-center text-light">
-                <h4 className="sub-title">Food Menu</h4>
+                <h4 className="sub-title"> Menu</h4>
                 <h2 className="title">Our Specials Menu</h2>
               </div>
             </div>

@@ -13,13 +13,13 @@ export const metadata = {
 const FoodMenuPage = () => {
     return (
         <>
-            <LayoutV6 breadCrumb="food-menu" title="Food Menu">
+            <LayoutV6 breadCrumb="menu" title=" Menu">
                 {/* <FoodMenuV4 /> */}
                 {/* <DeliveryV1 /> */}
                 {/* <FoodMenuV5 /> */}
                                 <FoodMenuV3 />
 
-                <TestimonialV1 />
+                {/* <TestimonialV1 /> */}
                 <ReservationV1 sectionClass="mb-120 mb-xs-60" />
             </LayoutV6>
         </>

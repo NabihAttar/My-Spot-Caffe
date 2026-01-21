@@ -27,10 +27,10 @@ const TestimonialV1 = () => {
                     <div className="row align-center ">
                         <div className="col-lg-5">
                             <div className="testimonial-thumb">
-                                <Image src="/assets/img/team/4.jpg" width={200} height={200} alt="Image Not Found" />
-                                <Image src="/assets/img/team/5.jpg" width={200} height={200} alt="Image Not Found" />
-                                <Image src="/assets/img/team/6.jpg" width={200} height={200} alt="Image Not Found" />
-                                <Image src="/assets/img/team/7.jpg" width={200} height={200} alt="Image Not Found" />
+                                <Image src="/assets/img/team/feedback_card_800x800_sharp.png" width={200} height={200} alt="Image Not Found" />
+                                <Image src="/assets/img/team/5.jpg" width={200} height={200} alt="Image Not Found" /> 
+                                 <Image src="/assets/img/team/6.jpg" width={200} height={200} alt="Image Not Found" /> 
+                                 <Image src="/assets/img/team/7.jpg" width={200} height={200} alt="Image Not Found" />
                             </div>
                         </div>
                         <div className="col-lg-6 offset-lg-1">
