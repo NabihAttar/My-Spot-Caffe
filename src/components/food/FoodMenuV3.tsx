@@ -82,6 +82,7 @@
 
 // export default FoodMenuV3;
 
+import MenuQRCode from "@/components/QRCode/page";
 
 import FoodCartV4Data from "@/assets/jsonData/food/FoodCartV4Data.json";
 import FoodMenuTabV3 from "./FoodMenuTabV3";
@@ -105,6 +106,7 @@ const FoodMenuV3 = ({ sectionClass, hasTitle }: DataType) => {
             </div>
           </div>
         )}
+      {/* <MenuQRCode /> */}
 
         <div className="food-menu-items text-light">
           <div className="row">
