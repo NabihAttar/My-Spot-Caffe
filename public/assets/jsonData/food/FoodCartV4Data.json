@@ -10,21 +10,21 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "14.jpg", "name": "Affogato", "price": 0, "priceFull": 360000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 2, "thumb": "14.jpg", "name": "Americano", "price": 0, "priceFull": 180000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 3, "thumb": "14.jpg", "name": "Cappuccino", "price": 0, "priceFull": 225000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 4, "thumb": "14.jpg", "name": "Dulce Latte", "price": 0, "priceFull": 270000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 5, "thumb": "14.jpg", "name": "Espresso", "price": 0, "priceFull": 100000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 6, "thumb": "14.jpg", "name": "Flat White", "price": 0, "priceFull": 180000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 7, "thumb": "14.jpg", "name": "Latte", "price": 0, "priceFull": 225000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 8, "thumb": "14.jpg", "name": "Macchiato", "price": 0, "priceFull": 180000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 9, "thumb": "14.jpg", "name": "Mocha", "price": 0, "priceFull": 360000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 10, "thumb": "14.jpg", "name": "Nescafe", "price": 0, "priceFull": 135000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 11, "thumb": "14.jpg", "name": "Spanish Latte", "price": 0, "priceFull": 270000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 12, "thumb": "14.jpg", "name": "Turkish coffee medium", "price": 0, "priceFull": 270000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 13, "thumb": "14.jpg", "name": "Turkish coffee small", "price": 0, "priceFull": 180000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 14, "thumb": "14.jpg", "name": "Vanilla macchiato", "price": 0, "priceFull": 270000, "leftInfo": "Hot coffee", "rightInfo": "Hot" },
-          { "id": 15, "thumb": "14.jpg", "name": "White chocolate macchiato", "price": 0, "priceFull": 360000, "leftInfo": "Hot coffee", "rightInfo": "Hot" }
+          { "id": 1, "thumb": "14.jpg", "name": "Espresso", "price": 0, "priceFull": 1.11, "leftInfo": "A bold, concentrated shot with intense aroma.", "rightInfo": "" },
+          { "id": 2, "thumb": "14.jpg", "name": "Macchiato", "price": 0, "priceFull": 2, "leftInfo": "A strong esspresso lightly touched with milk foam.", "rightInfo": "" },
+          { "id": 3, "thumb": "14.jpg", "name": "Cortado", "price": 0, "priceFull": 2, "leftInfo": "Equal parts esspresso and milk for a smooth balanced taste.", "rightInfo": "" },
+          { "id": 4, "thumb": "14.jpg", "name": "Flat White", "price": 0, "priceFull": 2, "leftInfo": "Silky milk with a strong espresso backbone.", "rightInfo": "" },
+          { "id": 5, "thumb": "14.jpg", "name": "Latte", "price": 2.5, "priceFull": 3.5, "leftInfo": "Creamy and smooth, perfect for any time of day.", "rightInfo": " Add Flavor" },
+          { "id": 6, "thumb": "14.jpg", "name": "Dulce Latte", "price": 0, "priceFull": 3, "leftInfo": "Sweetened latte with a smooth, comforting taste.", "rightInfo": "" },
+          { "id": 7, "thumb": "14.jpg", "name": "Spanish Latte", "price": 0, "priceFull": 3, "leftInfo": "Sweetened milk with espresso, rich and indulgent.", "rightInfo": "" },
+          { "id": 8, "thumb": "14.jpg", "name": "Mocha", "price": 0, "priceFull": 4, "leftInfo": "Espresso blended with rich chocolate flavors.", "rightInfo": "" },
+          { "id": 9, "thumb": "14.jpg", "name": "Cappuccino", "price": 0, "priceFull": 2.5, "leftInfo": "Rich espresso topped with steamed milk and velvety foam.", "rightInfo": "" },
+          { "id": 10, "thumb": "14.jpg", "name": "Nescafe", "price": 0, "priceFull": 1.5, "leftInfo": "Classic instant coffee, simple and familiar.", "rightInfo": "" },
+          { "id": 11, "thumb": "14.jpg", "name": "Americano", "price": 2, "priceFull": 3, "leftInfo": "Smooth espresso diluted with hot water for a balanced cup.", "rightInfo": "Double Shot" },
+          { "id": 12, "thumb": "14.jpg", "name": "White Chocolate Macchiato", "price": 0, "priceFull": 4, "leftInfo": "Smooth espresso with creamy white chocolate notes.", "rightInfo": "" },
+          { "id": 13, "thumb": "14.jpg", "name": "Vanilla Macchiato", "price": 0, "priceFull": 3, "leftInfo": "Espresso layered with vanilla and milk foam.", "rightInfo": "" },
+          { "id": 14, "thumb": "14.jpg", "name": "Turkish Coffee", "price": 3, "priceFull": 4, "leftInfo": "Traditional finely ground coffee, strong and aromatic.", "rightInfo": "(Small / Medium)" },
+          { "id": 15, "thumb": "14.jpg", "name": "Affogato", "price": 0, "priceFull": 4, "leftInfo": "Espresso poured over creamy vanilla ice cream.", "rightInfo": "" }
         ]
       }
     ]
@@ -41,19 +41,14 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "16.jpg", "name": "Freddo", "price": 0, "priceFull": 180000, "leftInfo": "Cold coffee", "rightInfo": "Cold" },
-          { "id": 2, "thumb": "16.jpg", "name": "Iced Americano", "price": 0, "priceFull": 225000, "leftInfo": "Cold coffee", "rightInfo": "Cold" },
-          { "id": 3, "thumb": "16.jpg", "name": "Iced caramel macchiato", "price": 0, "priceFull": 405000, "leftInfo": "Cold coffee", "rightInfo": "Cold" },
-          { "id": 4, "thumb": "16.jpg", "name": "Iced dulce latte", "price": 0, "priceFull": 540000, "leftInfo": "Cold coffee", "rightInfo": "Cold" },
-          { "id": 5, "thumb": "16.jpg", "name": "Iced latte", "price": 0, "priceFull": 270000, "leftInfo": "Cold coffee", "rightInfo": "Cold" },
-          { "id": 6, "thumb": "16.jpg", "name": "Iced mocha", "price": 0, "priceFull": 405000, "leftInfo": "Cold coffee", "rightInfo": "Cold" },
-          { "id": 7, "thumb": "16.jpg", "name": "Iced Spanish latte", "price": 0, "priceFull": 405000, "leftInfo": "Cold coffee", "rightInfo": "Cold" },
-          { "id": 8, "thumb": "16.jpg", "name": "Iced white macchiato", "price": 0, "priceFull": 405000, "leftInfo": "Cold coffee", "rightInfo": "Cold" },
-
-          { "id": 9, "thumb": "16.jpg", "name": "Cold brew", "price": 0, "priceFull": 405000, "leftInfo": "Filtered coffee", "rightInfo": "Cold" },
-          { "id": 10, "thumb": "16.jpg", "name": "French press", "price": 0, "priceFull": 315000, "leftInfo": "Filtered coffee", "rightInfo": "Hot" },
-          { "id": 11, "thumb": "16.jpg", "name": "Moka pot", "price": 0, "priceFull": 225000, "leftInfo": "Filtered coffee", "rightInfo": "Hot" },
-          { "id": 12, "thumb": "16.jpg", "name": "V60", "price": 0, "priceFull": 360000, "leftInfo": "Filtered coffee", "rightInfo": "Hot" }
+          { "id": 1, "thumb": "16.jpg", "name": "Freddo", "price": 0, "priceFull": 2, "leftInfo": "Chilled espresso shaken to perfection.", "rightInfo": "" },
+          { "id": 2, "thumb": "16.jpg", "name": "Iced Americano", "price": 2.5, "priceFull": 3.5, "leftInfo": "Refreshing espresso with cold water and ice.", "rightInfo": "Double Shot" },
+          { "id": 3, "thumb": "16.jpg", "name": "Iced caramel macchiato", "price": 0, "priceFull": 4.5, "leftInfo": "Cold milk, espresso, and caramel drizzle.", "rightInfo": "" },
+          { "id": 4, "thumb": "16.jpg", "name": "Iced dulce latte", "price": 0, "priceFull": 6, "leftInfo": "Sweet, creamy, and perfectly chilled.", "rightInfo": "" },
+          { "id": 5, "thumb": "16.jpg", "name": "Iced latte", "price": 0, "priceFull": 3, "leftInfo": "Cold milk blended with smooth espresso.", "rightInfo": "" },
+          { "id": 6, "thumb": "16.jpg", "name": "Iced mocha", "price": 0, "priceFull": 4.5, "leftInfo": "Iced espresso with rich chocolate flavor.", "rightInfo": "" },
+          { "id": 7, "thumb": "16.jpg", "name": "Iced Spanish latte", "price": 0, "priceFull": 4.5, "leftInfo": "Cold, sweetened milk with espresso.", "rightInfo": "" },
+          { "id": 8, "thumb": "16.jpg", "name": "Iced white macchiato", "price": 0, "priceFull": 4.5, "leftInfo": "Creamy white chocolate with chilled espresso.", "rightInfo": "" }
         ]
       }
     ]
@@ -61,6 +56,40 @@
 
   {
     "id": 3,
+    "tabTitle": "Non-Coffee",
+    "tabClass": "",
+    "tabThumb": "non-coffe.png",
+    "discount": 0,
+    "tabId": "tab5",
+    "tabContent": [
+      {
+        "id": 1,
+        "tabData": [
+          { "id": 1, "thumb": "15.jpg", "name": "Chamomile tea", "price": 0, "priceFull": 1.5, "leftInfo": "Calming herbal infusion.", "rightInfo": "" },
+          { "id": 2, "thumb": "15.jpg", "name": "Fruits tea", "price": 0, "priceFull": 1.5, "leftInfo": "Light and fruity tea blend.", "rightInfo": "" },
+          { "id": 3, "thumb": "15.jpg", "name": "Green tea", "price": 0, "priceFull": 1.5, "leftInfo": "Fresh and antioxidant-rich.", "rightInfo": "" },
+          { "id": 4, "thumb": "15.jpg", "name": "Red tea", "price": 0, "priceFull": 1.5, "leftInfo": "Classic black tea.", "rightInfo": "" },
+          { "id": 5, "thumb": "15.jpg", "name": "Zhurat", "price": 0, "priceFull": 1.5, "leftInfo": "Traditional Lebanese herbal tea.", "rightInfo": "" },
+          { "id": 6, "thumb": "15.jpg", "name": "Karkadeh", "price": 0, "priceFull": 1.5, "leftInfo": "Traditional hibiscus drink.", "rightInfo": "" },
+          { "id": 7, "thumb": "15.jpg", "name": "Moringa", "price": 0, "priceFull": 2, "leftInfo": "Herbal infusion with natural benefits.", "rightInfo": "" },
+          { "id": 8, "thumb": "15.jpg", "name": "Sahlab", "price": 0, "priceFull": 1.5, "leftInfo": "Warm, thick traditional winter drink.", "rightInfo": "" },
+          { "id": 9, "thumb": "15.jpg", "name": "Tea pot", "price": 0, "priceFull": 4, "leftInfo": "Freshly brewed tea for sharing.", "rightInfo": "" },
+
+          { "id": 10, "thumb": "15.jpg", "name": "Hot chocolate", "price": 2, "priceFull": 3.5, "leftInfo": "Classic warm chocolate comfort.", "rightInfo": "Special" },
+          { "id": 11, "thumb": "15.jpg", "name": "Hot matcha latte", "price": 0, "priceFull": 4, "leftInfo": "Earthy matcha with steamed milk.", "rightInfo": "" },
+          { "id": 12, "thumb": "15.jpg", "name": "Hot red velvet", "price": 0, "priceFull": 4, "leftInfo": "Smooth and sweet red velvet flavor.", "rightInfo": "" },
+
+          { "id": 13, "thumb": "15.jpg", "name": "Iced lime tea", "price": 0, "priceFull": 3, "leftInfo": "Refreshing citrus tea over ice.", "rightInfo": "" },
+          { "id": 14, "thumb": "15.jpg", "name": "Iced mango tea", "price": 0, "priceFull": 3, "leftInfo": "Fruity and vibrant iced tea.", "rightInfo": "" },
+          { "id": 15, "thumb": "15.jpg", "name": "Iced peach tea", "price": 0, "priceFull": 3, "leftInfo": "Light, sweet, and refreshing.", "rightInfo": "" },
+          { "id": 16, "thumb": "15.jpg", "name": "Iced matcha latte", "price": 0, "priceFull": 4, "leftInfo": "Chilled matcha with creamy milk.", "rightInfo": "" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": 4,
     "tabTitle": "Frappe",
     "tabClass": "",
     "tabThumb": "frappe.png",
@@ -70,24 +99,24 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "16.jpg", "name": "Caramel frappe", "price": 0, "priceFull": 405000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 2, "thumb": "16.jpg", "name": "Chocolate frappe", "price": 0, "priceFull": 540000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 3, "thumb": "16.jpg", "name": "Frappuccino", "price": 0, "priceFull": 360000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 4, "thumb": "16.jpg", "name": "Java chocolate frappe", "price": 0, "priceFull": 450000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 5, "thumb": "16.jpg", "name": "Matcha frappe", "price": 0, "priceFull": 405000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 6, "thumb": "16.jpg", "name": "Mocha frappe", "price": 0, "priceFull": 495000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 7, "thumb": "16.jpg", "name": "Oreo frappe", "price": 0, "priceFull": 450000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 8, "thumb": "16.jpg", "name": "Red velvet frappe", "price": 0, "priceFull": 405000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 9, "thumb": "16.jpg", "name": "Strawberry frappe", "price": 0, "priceFull": 405000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 10, "thumb": "16.jpg", "name": "Vanilla frappe", "price": 0, "priceFull": 405000, "leftInfo": "Frappe", "rightInfo": "Cold" },
-          { "id": 11, "thumb": "16.jpg", "name": "White mocha frappe", "price": 0, "priceFull": 405000, "leftInfo": "Frappe", "rightInfo": "Cold" }
+          { "id": 1, "thumb": "16.jpg", "name": "Caramel frappe", "price": 0, "priceFull": 4.5, "leftInfo": "Blended coffee with caramel sweetness.", "rightInfo": "" },
+          { "id": 2, "thumb": "16.jpg", "name": "Chocolate frappe", "price": 0, "priceFull": 6, "leftInfo": "Creamy chocolate blended with ice.", "rightInfo": "" },
+          { "id": 3, "thumb": "16.jpg", "name": "Frappuccino", "price": 0, "priceFull": 4, "leftInfo": "Classic blended coffee drink.", "rightInfo": "" },
+          { "id": 4, "thumb": "16.jpg", "name": "Java chocolate frappe", "price": 0, "priceFull": 5, "leftInfo": "Chocolate and coffee combined in a rich blend.", "rightInfo": "" },
+          { "id": 5, "thumb": "16.jpg", "name": "Matcha frappe", "price": 0, "priceFull": 4.5, "leftInfo": "Smooth matcha with a creamy finish.", "rightInfo": "" },
+          { "id": 6, "thumb": "16.jpg", "name": "Mocha frappe", "price": 0, "priceFull": 5.5, "leftInfo": "Coffee and chocolate blended to perfection.", "rightInfo": "" },
+          { "id": 7, "thumb": "16.jpg", "name": "Oreo frappe", "price": 0, "priceFull": 5, "leftInfo": "Creamy blend with Oreo crunch.", "rightInfo": "" },
+          { "id": 8, "thumb": "16.jpg", "name": "Red velvet frappe", "price": 0, "priceFull": 4.5, "leftInfo": "Sweet and smooth with red velvet notes.", "rightInfo": "" },
+          { "id": 9, "thumb": "16.jpg", "name": "Strawberry frappe", "price": 0, "priceFull": 4.5, "leftInfo": "Fruity, refreshing, and creamy.", "rightInfo": "" },
+          { "id": 10, "thumb": "16.jpg", "name": "Vanilla frappe", "price": 0, "priceFull": 4.5, "leftInfo": "Classic vanilla blended with ice.", "rightInfo": "" },
+          { "id": 11, "thumb": "16.jpg", "name": "White mocha frappe", "price": 0, "priceFull": 4.5, "leftInfo": "Creamy white chocolate with coffee.", "rightInfo": "" }
         ]
       }
     ]
   },
 
   {
-    "id": 4,
+    "id": 5,
     "tabTitle": "Cold Drinks",
     "tabClass": "",
     "tabThumb": "cold-non-coffee.png",
@@ -133,43 +162,11 @@
     ]
   },
 
-  {
-    "id": 5,
-    "tabTitle": "Non-Coffee",
-    "tabClass": "",
-    "tabThumb": "non-coffe.png",
-    "discount": 0,
-    "tabId": "tab5",
-    "tabContent": [
-      {
-        "id": 1,
-        "tabData": [
-          { "id": 1, "thumb": "15.jpg", "name": "Chamomile tea", "price": 0, "priceFull": 100000, "leftInfo": "Tea", "rightInfo": "Hot" },
-          { "id": 2, "thumb": "15.jpg", "name": "Fruits tea", "price": 0, "priceFull": 100000, "leftInfo": "Tea", "rightInfo": "Hot" },
-          { "id": 3, "thumb": "15.jpg", "name": "Green tea", "price": 0, "priceFull": 100000, "leftInfo": "Tea", "rightInfo": "Hot" },
-          { "id": 4, "thumb": "15.jpg", "name": "Red tea", "price": 0, "priceFull": 100000, "leftInfo": "Tea", "rightInfo": "Hot" },
-          { "id": 5, "thumb": "15.jpg", "name": "Zhurat", "price": 0, "priceFull": 100000, "leftInfo": "Herbal", "rightInfo": "Hot" },
-          { "id": 6, "thumb": "15.jpg", "name": "Karkadeh", "price": 0, "priceFull": 100000, "leftInfo": "Herbal", "rightInfo": "Hot" },
-          { "id": 7, "thumb": "15.jpg", "name": "Moringa", "price": 0, "priceFull": 180000, "leftInfo": "Herbal", "rightInfo": "Hot" },
-          { "id": 8, "thumb": "15.jpg", "name": "Sahlab", "price": 0, "priceFull": 100000, "leftInfo": "Traditional", "rightInfo": "Hot" },
-          { "id": 9, "thumb": "15.jpg", "name": "Tea pot", "price": 0, "priceFull": 270000, "leftInfo": "Tea", "rightInfo": "Hot" },
-
-          { "id": 10, "thumb": "15.jpg", "name": "Hot chocolate", "price": 0, "priceFull": 315000, "leftInfo": "Chocolate", "rightInfo": "Hot" },
-          { "id": 11, "thumb": "15.jpg", "name": "Hot matcha latte", "price": 0, "priceFull": 315000, "leftInfo": "Matcha", "rightInfo": "Hot" },
-          { "id": 12, "thumb": "15.jpg", "name": "Hot red velvet", "price": 0, "priceFull": 315000, "leftInfo": "Red velvet", "rightInfo": "Hot" },
-
-          { "id": 13, "thumb": "15.jpg", "name": "Iced lime tea", "price": 0, "priceFull": 270000, "leftInfo": "Tea", "rightInfo": "Cold" },
-          { "id": 14, "thumb": "15.jpg", "name": "Iced mango tea", "price": 0, "priceFull": 270000, "leftInfo": "Tea", "rightInfo": "Cold" },
-          { "id": 15, "thumb": "15.jpg", "name": "Iced peach tea", "price": 0, "priceFull": 270000, "leftInfo": "Tea", "rightInfo": "Cold" },
-          { "id": 16, "thumb": "15.jpg", "name": "Iced matcha latte", "price": 0, "priceFull": 315000, "leftInfo": "Matcha", "rightInfo": "Cold" }
-        ]
-      }
-    ]
-  },
+  
 
   {
     "id": 6,
-    "tabTitle": "Food",
+    "tabTitle": "Sandwishes & Desserts",
     "tabClass": "",
     "tabThumb": "desserts.png",
     "discount": 0,
@@ -178,24 +175,18 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "1.jpg", "name": "habash and Emmental", "price": 0, "priceFull": 450000, "leftInfo": "Sandwich", "rightInfo": "Food" },
-          { "id": 2, "thumb": "2.jpg", "name": "labneh", "price": 0, "priceFull": 300000, "leftInfo": "Sandwich", "rightInfo": "Food" },
-          { "id": 3, "thumb": "3.jpg", "name": "mortadella and cheese", "price": 0, "priceFull": 350000, "leftInfo": "Sandwich", "rightInfo": "Food" },
-          { "id": 4, "thumb": "4.jpg", "name": "pesto + mozzarella + tomato", "price": 0, "priceFull": 450000, "leftInfo": "Sandwich", "rightInfo": "Food" },
+          { "id": 1, "thumb": "1.jpg", "name": "habash $ Emmental", "price": 0, "priceFull": 5, "leftInfo": "Smoked turkey with melted Emmental cheese.", "rightInfo": "" },
+          { "id": 2, "thumb": "2.jpg", "name": "labneh", "price": 0, "priceFull": 3.5, "leftInfo": "Creamy labneh in fresh bread.", "rightInfo": "" },
+          { "id": 3, "thumb": "3.jpg", "name": "mortadella & cheese", "price": 0, "priceFull": 4, "leftInfo": "Classic and satisfying combination.", "rightInfo": "" },
+          { "id": 4, "thumb": "4.jpg", "name": "Pesto, Mozzarella & Tomato", "price": 0, "priceFull": 5, "leftInfo": "Fresh, Italian-inspired sandwich.", "rightInfo": "" },
 
-          { "id": 5, "thumb": "5.jpg", "name": "brownies", "price": 0, "priceFull": 225000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 6, "thumb": "6.jpg", "name": "cannoli", "price": 0, "priceFull": 360000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 7, "thumb": "7.jpg", "name": "cheesecake", "price": 0, "priceFull": 360000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 8, "thumb": "8.jpg", "name": "chocolate cupcake", "price": 0, "priceFull": 90000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 9, "thumb": "8.jpg", "name": "cupcake", "price": 0, "priceFull": 90000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 10, "thumb": "7.jpg", "name": "pavlova", "price": 0, "priceFull": 270000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 11, "thumb": "6.jpg", "name": "tart", "price": 0, "priceFull": 270000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 12, "thumb": "5.jpg", "name": "tiramisu", "price": 0, "priceFull": 360000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 13, "thumb": "5.jpg", "name": "tiramisu balls", "price": 0, "priceFull": 45000, "leftInfo": "Dessert", "rightInfo": "Dessert" },
+          { "id": 5, "thumb": "5.jpg", "name": "brownies", "price": 0, "priceFull": 2.5, "leftInfo": "Rich, dense chocolate squares.", "rightInfo": "" },
+          { "id": 6, "thumb": "7.jpg", "name": "cheesecake", "price": 0, "priceFull": 3.5, "leftInfo": "Smooth and perfectly balanced.", "rightInfo": "" },
+          { "id": 7, "thumb": "8.jpg", "name": "cupcake", "price": 0, "priceFull": 2, "leftInfo": "Light sponge with sweet topping.", "rightInfo": "" },
+          { "id": 8, "thumb": "5.jpg", "name": "tiramisu", "price": 0, "priceFull": 4, "leftInfo": "Classic Italian dessert with coffee notes.", "rightInfo": "" },
 
-          { "id": 14, "thumb": "8.jpg", "name": "crepe", "price": 0, "priceFull": 0, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 15, "thumb": "8.jpg", "name": "fragola", "price": 0, "priceFull": 0, "leftInfo": "Dessert", "rightInfo": "Dessert" },
-          { "id": 16, "thumb": "8.jpg", "name": "vanilla cupcake", "price": 0, "priceFull": 0, "leftInfo": "Dessert", "rightInfo": "Dessert" }
+          { "id": 9, "thumb": "8.jpg", "name": "crepe", "price": 0, "priceFull": 6, "leftInfo": "Thin, soft, and delicious.", "rightInfo": "" },
+          { "id": 10, "thumb": "8.jpg", "name": "Waffle", "price": 0, "priceFull": 5, "leftInfo": "Crispy, fluffy waffle a perfect treat any time.", "rightInfo": "" }
         ]
       }
     ]
@@ -212,8 +203,8 @@
       {
         "id": 1,
         "tabData": [
-          { "id": 1, "thumb": "9.jpg", "name": "m3assal", "price": 0, "priceFull": 500000, "leftInfo": "Narjila", "rightInfo": "Shisha" },
-          { "id": 2, "thumb": "10.jpg", "name": "ras m3assal", "price": 0, "priceFull": 250000, "leftInfo": "Narjila", "rightInfo": "Shisha" }
+          { "id": 1, "thumb": "9.jpg", "name": "M3assal", "price": 0, "priceFull": 5, "leftInfo": "Narjila", "rightInfo": "Shisha" },
+          { "id": 2, "thumb": "10.jpg", "name": "Ras m3assal", "price": 0, "priceFull": 2.5, "leftInfo": "Narjila", "rightInfo": "Shisha" }
         ]
       }
     ]
