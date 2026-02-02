@@ -19,7 +19,7 @@
     "qrcode.react": "^4.2.0",
     "react": "^19.2.0",
     "react-countup": "^6.5.3",
-    "react-datepicker": "^8.8.0",
+    "react-datepicker": "^8.10.0",
     "react-dom": "^19.2.0",
     "react-modal-video": "^2.0.2",
     "react-paginate": "^8.3.0",
@@ -28,7 +28,7 @@
     "react-redux": "^9.2.0",
     "react-simple-scroll-up": "^0.2.3",
     "react-toastify": "^11.0.5",
-    "swiper": "^12.0.3"
+    "swiper": "^12.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
