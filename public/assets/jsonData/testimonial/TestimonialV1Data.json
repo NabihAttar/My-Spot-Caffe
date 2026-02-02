@@ -1,38 +1,38 @@
 [
-    {
-        "id": 1,
-        "ratings": 5,
-        "rate": "5/5",
-        "title": "The best food ever",
-        "text": "Targeting consultation discover apartments. ndulgence off under folly death wrote cause her way spite. Plan upon yet way get cold spot its week. Almost do am or limits hearts. Resolve parties but why she shewing.",
-        "name": "Matthew J. Wyman",
-        "designation": "Senior Consultant"
-    },
-    {
-        "id": 2,
-        "ratings": 5,
-        "rate": "5/5",
-        "title": "Awesome and delicious food",
-        "text": "Breaking consultation discover apartments. ndulgence off under folly death wrote cause her way spite. Plan upon yet way get cold spot its week. Almost do am or limits hearts. Resolve parties but why she shewing.",
-        "name": "Istiak Ahmed",
-        "designation": "Marketing Manager"
-    },
-    {
-        "id": 3,
-        "ratings": 5,
-        "rate": "5/5",
-        "title": "The best food ever",
-        "text": "Targeting consultation discover apartments. ndulgence off under folly death wrote cause her way spite. Plan upon yet way get cold spot its week. Almost do am or limits hearts. Resolve parties but why she shewing.",
-        "name": "Matthew J. Wyman",
-        "designation": "Senior Consultant"
-    },
-    {
-        "id": 4,
-        "ratings": 5,
-        "rate": "5/5",
-        "title": "Awesome and delicious food",
-        "text": "Breaking consultation discover apartments. ndulgence off under folly death wrote cause her way spite. Plan upon yet way get cold spot its week. Almost do am or limits hearts. Resolve parties but why she shewing.",
-        "name": "Istiak Ahmed",
-        "designation": "Marketing Manager"
-    }
+  {
+    "id": 1,
+    "ratings": 5,
+    "rate": "5/5",
+    "title": "Best coffee spot in Baalbek",
+    "text": "The espresso is always on point and the cappuccino is super smooth. The place feels calm and welcoming — perfect for a quick break or a long chat with friends.",
+    "name": "Nabih A.",
+    "designation": "Coffee Love"
+  },
+  {
+    "id": 2,
+    "ratings": 5,
+    "rate": "5/5",
+    "title": "Cozy atmosphere & great service",
+    "text": "Loved the vibe from the first minute. Friendly team, clean place, and the drinks are consistently good. My favorite is the iced latte — balanced and refreshing.",
+    "name": "Sara A.",
+    "designation": "Regular Customer"
+  },
+  {
+    "id": 3,
+    "ratings": 5,
+    "rate": "5/5",
+    "title": "Perfect for work and quiet time",
+    "text": "I come here when I need focus. The music is chill, the seating is comfortable, and the coffee keeps me going. Great spot if you want a peaceful café experience.",
+    "name": "Nour K.",
+    "designation": "Student"
+  },
+  {
+    "id": 4,
+    "ratings": 5,
+    "rate": "5/5",
+    "title": "Amazing drinks & desserts",
+    "text": "Everything tastes fresh and well-made. The frappe is rich and creamy, and the desserts are a great match with coffee. Definitely one of my top spots in town.",
+    "name": "Khaled M.",
+    "designation": "Food & Coffee Fan"
+  }
 ]

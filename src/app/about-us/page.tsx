@@ -15,9 +15,9 @@ const AboutUsPage = () => {
         <>
             <LayoutV6 breadCrumb="about-us" title="About Us">
                 <TestimonialV1 />
-                <BrandV1 />
+                {/* <BrandV1 /> */}
                 <AboutV1 />
-                <ChefV1 />
+                {/* <ChefV1 /> */}
                 <BusinessHours />
             </LayoutV6>
         </>

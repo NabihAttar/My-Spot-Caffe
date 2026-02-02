@@ -10,8 +10,8 @@ const TestimonialV1 = () => {
         <>
             <div className="testimonial-area bg-gray default-padding">
                 <div className="testimonial-shape">
-                    <Image src="/assets/img/shape/5.png" width={636} height={500} alt="Image Not Found" />
-                    <Image src="/assets/img/shape/7.png" width={750} height={500} alt="Image Not Found" />
+                    <Image src="/assets/img/shape/decor_cup_steam_1061x500_black.png" width={636} height={500} alt="Image Not Found" />
+                    <Image src="/assets/img/shape/decor_frappe_cup_1061x500_black.png" width={750} height={500} alt="Image Not Found" />
                 </div>
 
                 <div className="container">
@@ -27,10 +27,10 @@ const TestimonialV1 = () => {
                     <div className="row align-center ">
                         <div className="col-lg-5">
                             <div className="testimonial-thumb">
-                                <Image src="/assets/img/team/feedback_card_800x800_sharp.png" width={200} height={200} alt="Image Not Found" />
-                                <Image src="/assets/img/team/5.jpg" width={200} height={200} alt="Image Not Found" /> 
-                                 <Image src="/assets/img/team/6.jpg" width={200} height={200} alt="Image Not Found" /> 
-                                 <Image src="/assets/img/team/7.jpg" width={200} height={200} alt="Image Not Found" />
+                                <Image src="/assets/img/team/ChatGPT Image Feb 2, 2026, 02_21_59 PM.png" width={200} height={200} alt="Image Not Found" />
+                                {/* <Image src="/assets/img/team/5.jpg" width={200} height={200} alt="Image Not Found" />  */}
+                                 {/* <Image src="/assets/img/team/6.jpg" width={200} height={200} alt="Image Not Found" />  */}
+                                 {/* <Image src="/assets/img/team/7.jpg" width={200} height={200} alt="Image Not Found" /> */}
                             </div>
                         </div>
                         <div className="col-lg-6 offset-lg-1">
