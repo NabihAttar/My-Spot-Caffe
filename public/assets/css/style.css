@@ -1,11 +1,19 @@
- @import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
- @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Marcellus&display=swap');
- @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+ 
+@font-face {
+  font-family: "Elegante";
+  src: url("/assets/fonts/Elegant.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 
  :root {
-     --font-default: 'Lato', sans-serif;
-     --font-heading: 'Marcellus', cursive;
-     --font-optional: 'Dancing Script', cursive;
+--font-default: "Elegante", sans-serif;
+--font-heading: "Elegante", sans-serif;
+--font-optional: "Elegante", sans-serif;
+
+
      --fontawesome: "Font Awesome 5 Pro";
      --black: #1f4d65;
      --dark: #96661c;
@@ -278,8 +286,9 @@
      color: var(--color-paragraph);
      margin: 0 0 25px;
      text-transform: none;
-     font-weight: 500;
+     font-weight: 700;
      font-family: var(--font-default);
+     font-size: 20px;
  }
 
  /* ----- Input Type Number Remove Arrows/Spinner ----- */
@@ -2923,6 +2932,7 @@
          z-index: 8;
          width: 100%;
          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+          padding: 5px 5px;
      }
 
      .bg-transparent .item-flex li i {

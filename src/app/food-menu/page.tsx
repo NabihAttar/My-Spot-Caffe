@@ -17,7 +17,7 @@ const FoodMenuPage = () => {
                 {/* <FoodMenuV4 /> */}
                 {/* <DeliveryV1 /> */}
                 {/* <FoodMenuV5 /> */}
-                                <FoodMenuV3 />
+                <FoodMenuV3 />
 
                 {/* <TestimonialV1 /> */}
                 <ReservationV1 sectionClass="mb-120 mb-xs-60" />
