@@ -4,7 +4,7 @@ const BannerV4 = () => {
     return (
         <>
             <div className="banner-style-four-area text-light text-center bg-cover"
-                style={{ backgroundImage: 'url(/assets/img/banner/14.jpg)' }}>
+                style={{ backgroundImage: 'url(/assets/img/banner/bannerHome.png)' }}>
                 <div className="banner-style-four-content shadow dark">
                     <div className="container">
                         <div className="row">
