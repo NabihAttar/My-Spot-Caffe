@@ -5071,7 +5071,7 @@
  .tab-content.food-menu-tab-content .info {
      padding: 65px 50px;
      padding-right: 65px;
-     padding-left: 130px;
+     padding-left: 0px;
  }
 
  .shape-less .nav.nav-tabs.food-menu-nav {
@@ -5109,7 +5109,7 @@
      display: grid;
      width: 100%;
      grid-template-columns: 1fr 5.5fr;
-     grid-column-gap: 30px;
+     grid-column-gap: 0px;
      align-items: center;
  }
 
@@ -12689,3 +12689,34 @@
  .banner-area.banner-style-five .swiper-nav-left div svg path {
      fill: var(--white);
  }
+
+ /* Add an invisible thumbnail placeholder (same size/space as before) */
+.menu-item.no-thumb::before {
+  content: "";
+  flex: 0 0 200px;      /* thumbnail width */
+  width: 200px;
+  height: 200px;        /* thumbnail height */
+  margin-right: 30px;   /* match old gap between thumb and content */
+  border-radius: 50%;
+  visibility: hidden;   /* keeps space but shows nothing */
+}
+
+/* Ensure content expands normally */
+.menu-item.no-thumb .content {
+  flex: 1;
+  min-width: 0;
+}
+.menu-item { display: flex; align-items: flex-start; }
+
+
+/* If the <li> is flex */
+.menu-item {
+  display: flex;
+  gap: 20px;          /* ✅ space between pic and content */
+}
+.menu-item .thumbnail {
+  margin-right: 20px !important;  /* ✅ force 20px */
+}
+.menu-item .content {
+  padding-left: 0 !important;
+}

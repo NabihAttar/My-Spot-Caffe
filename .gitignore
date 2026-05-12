@@ -75,3 +75,12 @@ Thumbs.db
 # Secrets / keys (optional)
 # ------------------------------------------------------------
 *.pem
+
+# ------------------------------------------------------------
+# Admin panel runtime data
+# (auto-created on first run from public/assets/jsonData/food/FoodCartV4Data.json)
+# ------------------------------------------------------------
+/data/menu.json
+
+# Admin uploads
+/public/assets/img/food/uploads/
