@@ -22,14 +22,14 @@ const HeaderV1 = () => {
                                 <i className="fa fa-bars"></i>
                             </button>
                             <Link className="navbar-brand" href="/">
-                                <Image src="/assets/img/my spot logo white.png" width={975} height={632} className="logo logo-display" alt="Logo" />
-                                <Image src="/assets/img/my spot logo png.png" width={675} height={332} className="logo logo-scrolled" alt="Logo" />
+                                <Image src="/assets/img/my spot logo white.png" width={975} height={632} className="logo logo-display" alt="My Spot Caffe Logo" />
+                                <Image src="/assets/img/my spot logo png.png" width={675} height={332} className="logo logo-scrolled" alt="My Spot Caffe Logo" />
                             </Link>
                         </div>
 
                         <div className={`collapse navbar-collapse collapse-mobile ${isOpen ? "show" : ""}`} id="navbar-menu">
 
-                            <Image src="/assets/img/my spot logo png.png" width={675} height={332} alt="Logo" />
+                            <Image src="/assets/img/my spot logo png.png" width={675} height={332} alt="My Spot Caffe Logo" />
                             <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu" onClick={closeMenu}>
                                 <i className="fa fa-times fa-bars"></i>
                             </button>

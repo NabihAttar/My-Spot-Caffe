@@ -35,15 +35,16 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    if (!checkCredentials(username, password)) {
+    if (!(await checkCredentials(username, password))) {
         return NextResponse.json(
             { error: "Invalid username or password" },
             { status: 401 }
         );
     }
 
-    const token = createToken(getAdminUsername());
-    const res = NextResponse.json({ ok: true, user: { name: getAdminUsername() } });
+    const name = await getAdminUsername();
+    const token = createToken(name);
+    const res = NextResponse.json({ ok: true, user: { name } });
     res.cookies.set(AUTH_COOKIE, token, cookieOptions());
     return res;
 }

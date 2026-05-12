@@ -6,6 +6,7 @@ import AdminShell from "@/components/admin/AdminShell";
 import StatCard from "@/components/admin/StatCard";
 import Spinner from "@/components/admin/Spinner";
 import EmptyState from "@/components/admin/EmptyState";
+import PieChart, { type PieDatum } from "@/components/admin/PieChart";
 import type { Menu, Product, Category } from "@/lib/menu-types";
 
 interface FlatProduct extends Product {
@@ -93,6 +94,40 @@ const DashboardPage = () => {
         }));
     }, [menu]);
 
+    const categoryPieData: PieDatum[] = useMemo(
+        () =>
+            productsByCategory
+                .filter((p) => p.count > 0)
+                .map(({ category, count }) => ({
+                    label: category.tabTitle,
+                    value: count,
+                })),
+        [productsByCategory]
+    );
+
+    const statusPieData: PieDatum[] = useMemo(() => {
+        const items: PieDatum[] = [];
+        if (stats.availableProducts > 0)
+            items.push({
+                label: "Active",
+                value: stats.availableProducts,
+                color: "#10b981",
+            });
+        if (stats.hiddenProducts > 0)
+            items.push({
+                label: "Hidden",
+                value: stats.hiddenProducts,
+                color: "#ef4444",
+            });
+        if (stats.featuredProducts > 0)
+            items.push({
+                label: "Featured",
+                value: stats.featuredProducts,
+                color: "#f4b04a",
+            });
+        return items;
+    }, [stats]);
+
     return (
         <AdminShell
             title="Dashboard"
@@ -145,24 +180,31 @@ const DashboardPage = () => {
                         <div className="admin-card">
                             <div className="admin-card__header">
                                 <div>
-                                    <h2 className="admin-card__title">Quick Actions</h2>
+                                    <h2 className="admin-card__title">
+                                        Category Distribution
+                                    </h2>
                                     <p className="admin-card__subtitle">
-                                        Jump straight into managing the menu.
+                                        Share of products per category.
                                     </p>
                                 </div>
                             </div>
                             <div className="admin-card__body">
-                                <div className="admin-btn-group">
-                                    <Link href="/admin/products" className="admin-btn">
-                                        <i className="fas fa-plus" aria-hidden /> Add Product
-                                    </Link>
-                                    <Link href="/admin/categories" className="admin-btn admin-btn--accent">
-                                        <i className="fas fa-plus" aria-hidden /> Add Category
-                                    </Link>
-                                    <Link href="/food-menu" target="_blank" rel="noopener" className="admin-btn admin-btn--ghost">
-                                        <i className="fas fa-external-link-alt" aria-hidden /> View Public Menu
-                                    </Link>
-                                </div>
+                                {categoryPieData.length === 0 ? (
+                                    <EmptyState
+                                        icon="fas fa-chart-pie"
+                                        title="Nothing to chart yet"
+                                        description="Add products to see the breakdown."
+                                    />
+                                ) : (
+                                    <PieChart
+                                        data={categoryPieData}
+                                        size={240}
+                                        centerLabel={{
+                                            value: stats.totalProducts,
+                                            caption: "Products",
+                                        }}
+                                    />
+                                )}
                             </div>
                         </div>
 
@@ -238,6 +280,35 @@ const DashboardPage = () => {
                                     </div>
                                 )}
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="admin-card" style={{ marginTop: 20 }}>
+                        <div className="admin-card__header">
+                            <div>
+                                <h2 className="admin-card__title">Product Status</h2>
+                                <p className="admin-card__subtitle">
+                                    Active, hidden and featured items.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="admin-card__body">
+                            {statusPieData.length === 0 ? (
+                                <EmptyState
+                                    icon="fas fa-chart-pie"
+                                    title="Nothing to chart yet"
+                                    description="Add products to see status breakdown."
+                                />
+                            ) : (
+                                <PieChart
+                                    data={statusPieData}
+                                    size={240}
+                                    centerLabel={{
+                                        value: stats.totalProducts,
+                                        caption: "Products",
+                                    }}
+                                />
+                            )}
                         </div>
                     </div>
 

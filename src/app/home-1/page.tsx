@@ -14,8 +14,13 @@ import WhyChooseV2 from "@/components/whyChoose/WhyChooseV2";
 import ProductV1 from "@/components/product/ProductV1";
 
 
-export const metadata = {
-    title: "Restan - Food & Restaurant NextJS Template"
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "My Spot Caffe | Coffee, Drinks & QR Code Menu",
+    description:
+        "Welcome to My Spot Caffe, your place for coffee, drinks, desserts, and a smooth QR code menu experience.",
+    alternates: { canonical: "/home-1" },
 };
 
 const Home1 = () => {

@@ -3,8 +3,22 @@ import "@/assets/css/admin.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Admin · My Spot Café",
-    robots: { index: false, follow: false },
+    title: {
+        default: "Admin Dashboard | My Spot Caffe",
+        template: "%s | My Spot Caffe Admin",
+    },
+    description:
+        "Manage My Spot Caffe products, categories, prices, and menu content.",
+    robots: {
+        index: false,
+        follow: false,
+        nocache: true,
+        googleBot: {
+            index: false,
+            follow: false,
+            noimageindex: true,
+        },
+    },
 };
 
 /**

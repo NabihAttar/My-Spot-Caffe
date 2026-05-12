@@ -21,7 +21,7 @@ const FooterV1 = () => {
                             <div className="col-lg-6">
                                 <div className="footer-logo">
                                     <Link href="/">
-                                        <Image src="/assets/img/my spot logo white.png" alt="Logo" width={675} height={332} />
+                                        <Image src="/assets/img/my spot logo white.png" alt="My Spot Caffe Logo" width={675} height={332} />
                                     </Link>
                                 </div>
                             </div>

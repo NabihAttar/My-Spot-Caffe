@@ -82,5 +82,8 @@ Thumbs.db
 # ------------------------------------------------------------
 /data/menu.json
 
+# Admin credentials (salted password hash; created when changed from Settings)
+/data/admin-credentials.json
+
 # Admin uploads
 /public/assets/img/food/uploads/

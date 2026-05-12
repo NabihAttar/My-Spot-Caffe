@@ -15,6 +15,7 @@
  */
 
 import { createHmac, timingSafeEqual } from "crypto";
+import { getStoredCredentials, verifyStoredPassword } from "./credentials";
 
 export const AUTH_COOKIE = "spotcaffe_admin";
 const DEFAULT_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
@@ -42,12 +43,37 @@ function getSecret(): string {
     return FALLBACK_SECRET;
 }
 
-export function getAdminUsername(): string {
+function envAdminUsername(): string {
     return process.env.ADMIN_USERNAME || "admin";
 }
 
-export function getAdminPassword(): string {
+function envAdminPassword(): string {
     return process.env.ADMIN_PASSWORD || "admin123";
+}
+
+/**
+ * Resolve the effective admin username. Prefers the value persisted via the
+ * Settings page (data/admin-credentials.json) when present, otherwise falls
+ * back to the ADMIN_USERNAME env var.
+ */
+export async function getAdminUsername(): Promise<string> {
+    const stored = await getStoredCredentials();
+    if (stored) return stored.username;
+    return envAdminUsername();
+}
+
+/**
+ * Verify that the supplied current password matches the active credentials.
+ * Used by the change-credentials API to require re-authentication.
+ */
+export async function verifyCurrentPassword(password: string): Promise<boolean> {
+    const stored = await getStoredCredentials();
+    if (stored) return verifyStoredPassword(stored, password);
+    const expected = envAdminPassword();
+    const a = Buffer.from(password);
+    const b = Buffer.from(expected);
+    if (a.length !== b.length) return false;
+    return timingSafeEqual(a, b);
 }
 
 function b64UrlEncode(input: string): string {
@@ -101,10 +127,20 @@ export function verifyToken(token: string | undefined | null): TokenPayload | nu
     }
 }
 
-export function checkCredentials(username: string, password: string): boolean {
-    const u = getAdminUsername();
-    const p = getAdminPassword();
-    // Use timing-safe comparison.
+export async function checkCredentials(
+    username: string,
+    password: string
+): Promise<boolean> {
+    const stored = await getStoredCredentials();
+    if (stored) {
+        const a = Buffer.from(username);
+        const b = Buffer.from(stored.username);
+        if (a.length !== b.length || !timingSafeEqual(a, b)) return false;
+        return verifyStoredPassword(stored, password);
+    }
+    // Env-var fallback (existing behavior).
+    const u = envAdminUsername();
+    const p = envAdminPassword();
     const a = Buffer.from(`${username}:${password}`);
     const b = Buffer.from(`${u}:${p}`);
     if (a.length !== b.length) return false;
