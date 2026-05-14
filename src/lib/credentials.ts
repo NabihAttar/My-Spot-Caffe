@@ -2,7 +2,8 @@
  * Persisted admin credentials.
  *
  * When the admin updates the username / password from the Settings page we
- * store the result in `data/admin-credentials.json`. Passwords are salted +
+ * store the result in `data/admin-credentials.json` locally, or under
+ * `os.tmpdir()` on Vercel (see `server-paths.ts`). Passwords are salted +
  * SHA-256 hashed; the plain-text value is never written to disk.
  *
  * If the file does not exist the auth layer falls back to the ADMIN_USERNAME
@@ -12,9 +13,11 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { createHash, randomBytes, timingSafeEqual } from "crypto";
+import { adminCredentialsJsonPath } from "./server-paths";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const CRED_FILE = path.join(DATA_DIR, "admin-credentials.json");
+function credFile(): string {
+    return adminCredentialsJsonPath();
+}
 
 export interface StoredCredentials {
     username: string;
@@ -34,7 +37,7 @@ function hashPassword(password: string, salt: string): string {
 
 async function loadFromDisk(): Promise<StoredCredentials | null> {
     try {
-        const raw = await fs.readFile(CRED_FILE, "utf-8");
+        const raw = await fs.readFile(credFile(), "utf-8");
         const parsed = JSON.parse(raw) as Partial<StoredCredentials>;
         if (
             typeof parsed.username === "string" &&
@@ -74,7 +77,7 @@ export async function saveCredentials(
     });
     await previous;
     try {
-        await fs.mkdir(DATA_DIR, { recursive: true });
+        await fs.mkdir(path.dirname(credFile()), { recursive: true });
         const salt = randomBytes(16).toString("hex");
         const passwordHash = hashPassword(password, salt);
         const data: StoredCredentials = {
@@ -83,7 +86,7 @@ export async function saveCredentials(
             passwordHash,
             updatedAt: new Date().toISOString(),
         };
-        await fs.writeFile(CRED_FILE, JSON.stringify(data, null, 2), "utf-8");
+        await fs.writeFile(credFile(), JSON.stringify(data, null, 2), "utf-8");
         cache = data;
         cacheReady = true;
         return data;

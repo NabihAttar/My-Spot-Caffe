@@ -2,7 +2,8 @@
  * Tiny file-backed JSON "database" for the menu.
  *
  * We intentionally avoid adding a real DB dependency (sqlite, prisma, etc.).
- * Instead we persist the menu in `data/menu.json` at the project root and
+ * Instead we persist the menu in `data/menu.json` locally (or under
+ * `os.tmpdir()` on Vercel — see `server-paths.ts`) and
  * seed it on first read from the existing FoodCartV4Data.json so the public
  * menu and QR menu continue to work even before any admin edit happens.
  *
@@ -14,9 +15,15 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Menu, Category, Product } from "./menu-types";
+import { menuJsonPath } from "./server-paths";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const DATA_FILE = path.join(DATA_DIR, "menu.json");
+function dataFile(): string {
+    return menuJsonPath();
+}
+
+function dataDir(): string {
+    return path.dirname(dataFile());
+}
 const SEED_FILE = path.join(
     process.cwd(),
     "public",
@@ -29,11 +36,12 @@ const SEED_FILE = path.join(
 let writeLock: Promise<void> = Promise.resolve();
 
 async function ensureDataFile(): Promise<void> {
+    const DATA_FILE = dataFile();
     try {
         await fs.access(DATA_FILE);
     } catch {
         // Seed from the existing JSON used by the public menu so first run is consistent.
-        await fs.mkdir(DATA_DIR, { recursive: true });
+        await fs.mkdir(dataDir(), { recursive: true });
         let seed: Menu = [];
         try {
             const raw = await fs.readFile(SEED_FILE, "utf-8");
@@ -123,6 +131,7 @@ function migrateMenu(menu: Menu): boolean {
 
 export async function readMenu(): Promise<Menu> {
     await ensureDataFile();
+    const DATA_FILE = dataFile();
     const raw = await fs.readFile(DATA_FILE, "utf-8");
     let menu: Menu;
     try {
@@ -150,8 +159,8 @@ export async function writeMenu(menu: Menu): Promise<void> {
     });
     await previous;
     try {
-        await fs.mkdir(DATA_DIR, { recursive: true });
-        await fs.writeFile(DATA_FILE, JSON.stringify(menu, null, 2), "utf-8");
+        await fs.mkdir(dataDir(), { recursive: true });
+        await fs.writeFile(dataFile(), JSON.stringify(menu, null, 2), "utf-8");
     } finally {
         release!();
     }

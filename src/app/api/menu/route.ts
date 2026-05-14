@@ -14,27 +14,39 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
-    const menu = await readMenu();
-    const token = req.cookies.get(AUTH_COOKIE)?.value;
-    const isAdmin = !!verifyToken(token);
+    try {
+        const menu = await readMenu();
+        const token = req.cookies.get(AUTH_COOKIE)?.value;
+        const isAdmin = !!verifyToken(token);
 
-    if (isAdmin) {
-        // Admins see everything (incl. hidden + unavailable).
-        return NextResponse.json({ data: menu, isAdmin: true });
+        if (isAdmin) {
+            // Admins see everything (incl. hidden + unavailable).
+            return NextResponse.json({ data: menu, isAdmin: true });
+        }
+
+        const visible = menu
+            .filter((c) => !c.hidden)
+            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+            .map((c) => ({
+                ...c,
+                tabContent: (c.tabContent ?? []).map((group) => ({
+                    ...group,
+                    tabData: (group.tabData ?? [])
+                        .filter((p) => p.available !== false)
+                        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+                })),
+            }));
+
+        return NextResponse.json({ data: visible, isAdmin: false });
+    } catch (err) {
+        console.error("[api/menu]", err);
+        return NextResponse.json(
+            {
+                error: "Could not load menu data",
+                hint:
+                    "On Vercel the menu file is written under /tmp. If this persists, check server logs.",
+            },
+            { status: 500 }
+        );
     }
-
-    const visible = menu
-        .filter((c) => !c.hidden)
-        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-        .map((c) => ({
-            ...c,
-            tabContent: (c.tabContent ?? []).map((group) => ({
-                ...group,
-                tabData: (group.tabData ?? [])
-                    .filter((p) => p.available !== false)
-                    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
-            })),
-        }));
-
-    return NextResponse.json({ data: visible, isAdmin: false });
 }
