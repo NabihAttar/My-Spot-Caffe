@@ -210,6 +210,50 @@ export function ensureGroup(category: Category): void {
     }
 }
 
+/** Products in a category, sorted by display order (lower first). */
+export function sortedCategoryProducts(category: Category): Product[] {
+    ensureGroup(category);
+    return [...(category.tabContent[0].tabData ?? [])].sort(
+        (a, b) => (a.order ?? 0) - (b.order ?? 0)
+    );
+}
+
+/** Rewrite tabData order fields to 0..n-1 matching sorted positions. */
+export function normalizeProductOrders(category: Category): void {
+    ensureGroup(category);
+    const sorted = sortedCategoryProducts(category);
+    sorted.forEach((p, idx) => {
+        p.order = idx;
+    });
+    category.tabContent[0].tabData = sorted;
+}
+
+/**
+ * Move a product up or down within its category. Returns false if the move
+ * is not possible (already at edge or product not in category).
+ */
+export function reorderProductInCategory(
+    menu: Menu,
+    categoryId: number,
+    productId: number,
+    direction: "up" | "down"
+): boolean {
+    const category = findCategory(menu, categoryId);
+    if (!category) return false;
+    const sorted = sortedCategoryProducts(category);
+    const idx = sorted.findIndex((p) => p.id === productId);
+    if (idx < 0) return false;
+    const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= sorted.length) return false;
+    [sorted[idx], sorted[swapIdx]] = [sorted[swapIdx], sorted[idx]];
+    sorted.forEach((p, i) => {
+        p.order = i;
+    });
+    ensureGroup(category);
+    category.tabContent[0].tabData = sorted;
+    return true;
+}
+
 /** Make sure exactly one category has the active "show active" class. */
 export function normalizeActiveCategory(menu: Menu): void {
     const visible = menu

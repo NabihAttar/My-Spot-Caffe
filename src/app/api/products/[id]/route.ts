@@ -7,7 +7,15 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { readMenu, writeMenu, findProduct, findCategory, ensureGroup } from "@/lib/db";
+import {
+    readMenu,
+    writeMenu,
+    findProduct,
+    findCategory,
+    ensureGroup,
+    normalizeProductOrders,
+    sortedCategoryProducts,
+} from "@/lib/db";
 import type { Product } from "@/lib/menu-types";
 
 export const runtime = "nodejs";
@@ -60,7 +68,11 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
             if (idx >= 0) group.tabData.splice(idx, 1);
         }
         ensureGroup(target);
+        normalizeProductOrders(category);
+        const targetSorted = sortedCategoryProducts(target);
+        product.order = targetSorted.length;
         target.tabContent[0].tabData.push(product);
+        normalizeProductOrders(target);
     }
 
     // Apply string field updates.

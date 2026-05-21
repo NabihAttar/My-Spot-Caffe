@@ -40,6 +40,8 @@ const ProductsPage = () => {
     const [confirm, setConfirm] = useState<ProductRow | null>(null);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [togglingId, setTogglingId] = useState<number | null>(null);
+    const [movingId, setMovingId] = useState<number | null>(null);
+    const [reorderingId, setReorderingId] = useState<number | null>(null);
 
     const load = useCallback(async () => {
         setLoading(true);
@@ -74,9 +76,28 @@ const ProductsPage = () => {
         return out;
     }, [categories]);
 
+    const categoryOrderMap = useMemo(
+        () => new Map(categories.map((c) => [c.id, c.order ?? 0])),
+        [categories]
+    );
+
+    const productRankInCategory = useMemo(() => {
+        const rank = new Map<string, { index: number; count: number }>();
+        for (const cat of categories) {
+            const ids = (cat.tabContent ?? [])
+                .flatMap((g) => g.tabData ?? [])
+                .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+                .map((p) => p.id);
+            ids.forEach((id, index) => {
+                rank.set(`${cat.id}-${id}`, { index, count: ids.length });
+            });
+        }
+        return rank;
+    }, [categories]);
+
     const visibleRows = useMemo(() => {
         const q = search.trim().toLowerCase();
-        return allRows.filter((p) => {
+        const filtered = allRows.filter((p) => {
             if (categoryFilter && String(p.categoryId) !== categoryFilter) return false;
             if (availabilityFilter === "active" && p.available === false) return false;
             if (availabilityFilter === "hidden" && p.available !== false) return false;
@@ -86,7 +107,14 @@ const ProductsPage = () => {
             }
             return true;
         });
-    }, [allRows, search, categoryFilter, availabilityFilter]);
+        return filtered.sort((a, b) => {
+            const catOrder =
+                (categoryOrderMap.get(a.categoryId) ?? 0) -
+                (categoryOrderMap.get(b.categoryId) ?? 0);
+            if (catOrder !== 0) return catOrder;
+            return (a.order ?? 0) - (b.order ?? 0);
+        });
+    }, [allRows, search, categoryFilter, availabilityFilter, categoryOrderMap]);
 
     const handleAdd = () => {
         if (categories.length === 0) {
@@ -127,6 +155,55 @@ const ProductsPage = () => {
         }
     };
 
+    const moveToCategory = async (p: ProductRow, targetCategoryId: number) => {
+        if (targetCategoryId === p.categoryId) return;
+        setMovingId(p.id);
+        try {
+            const res = await fetch(`/api/products/${p.id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ categoryId: targetCategoryId }),
+            });
+            if (!res.ok) {
+                const data = (await res.json()) as { error?: string };
+                throw new Error(data.error || "Move failed");
+            }
+            const target = categories.find((c) => c.id === targetCategoryId);
+            toast.success(`Moved to ${target?.tabTitle ?? "category"}`);
+            notifyMenuUpdated();
+            load();
+        } catch (e) {
+            toast.error((e as Error).message);
+        } finally {
+            setMovingId(null);
+        }
+    };
+
+    const reorderProduct = async (p: ProductRow, direction: "up" | "down") => {
+        setReorderingId(p.id);
+        try {
+            const res = await fetch("/api/products/reorder", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    categoryId: p.categoryId,
+                    productId: p.id,
+                    direction,
+                }),
+            });
+            if (!res.ok) {
+                const data = (await res.json()) as { error?: string };
+                throw new Error(data.error || "Reorder failed");
+            }
+            notifyMenuUpdated();
+            load();
+        } catch (e) {
+            toast.error((e as Error).message);
+        } finally {
+            setReorderingId(null);
+        }
+    };
+
     const toggleAvailability = async (p: ProductRow) => {
         setTogglingId(p.id);
         try {
@@ -155,7 +232,8 @@ const ProductsPage = () => {
                     <div>
                         <h2 className="admin-card__title">All Products</h2>
                         <p className="admin-card__subtitle">
-                            {visibleRows.length} of {allRows.length} shown
+                            {visibleRows.length} of {allRows.length} shown · use arrows to
+                            rank within a category · menu order matches here
                         </p>
                     </div>
                     <div style={{ marginLeft: "auto" }}>
@@ -245,6 +323,7 @@ const ProductsPage = () => {
                             <thead>
                                 <tr>
                                     <th style={{ width: 60 }} />
+                                    <th style={{ width: 56 }}>Rank</th>
                                     <th>Name</th>
                                     <th>Category</th>
                                     <th>Price</th>
@@ -254,7 +333,18 @@ const ProductsPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {visibleRows.map((p) => (
+                                {visibleRows.map((p) => {
+                                    const rank = productRankInCategory.get(
+                                        `${p.categoryId}-${p.id}`
+                                    );
+                                    const canUp = (rank?.index ?? 0) > 0;
+                                    const canDown =
+                                        rank !== undefined &&
+                                        rank.index < rank.count - 1;
+                                    const busy =
+                                        movingId === p.id || reorderingId === p.id;
+
+                                    return (
                                     <tr key={`${p.categoryId}-${p.id}`}>
                                         <td>
                                             <div className="admin-table__thumb">
@@ -265,6 +355,54 @@ const ProductsPage = () => {
                                                     <i className="fas fa-image" aria-hidden />
                                                 )}
                                             </div>
+                                        </td>
+                                        <td>
+                                            <div className="admin-order-controls">
+                                                <button
+                                                    type="button"
+                                                    className="admin-btn admin-btn--ghost admin-btn--icon"
+                                                    title="Move up in category"
+                                                    disabled={!canUp || busy}
+                                                    onClick={() =>
+                                                        reorderProduct(p, "up")
+                                                    }
+                                                >
+                                                    {reorderingId === p.id ? (
+                                                        <Spinner />
+                                                    ) : (
+                                                        <i
+                                                            className="fas fa-chevron-up"
+                                                            aria-hidden
+                                                        />
+                                                    )}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="admin-btn admin-btn--ghost admin-btn--icon"
+                                                    title="Move down in category"
+                                                    disabled={!canDown || busy}
+                                                    onClick={() =>
+                                                        reorderProduct(p, "down")
+                                                    }
+                                                >
+                                                    <i
+                                                        className="fas fa-chevron-down"
+                                                        aria-hidden
+                                                    />
+                                                </button>
+                                            </div>
+                                            {rank && (
+                                                <div
+                                                    style={{
+                                                        fontSize: 11,
+                                                        color: "var(--admin-text-muted)",
+                                                        textAlign: "center",
+                                                        marginTop: 4,
+                                                    }}
+                                                >
+                                                    {rank.index + 1}/{rank.count}
+                                                </div>
+                                            )}
                                         </td>
                                         <td>
                                             <strong>{p.name}</strong>
@@ -288,7 +426,26 @@ const ProductsPage = () => {
                                                 </div>
                                             )}
                                         </td>
-                                        <td>{p.categoryTitle}</td>
+                                        <td>
+                                            <select
+                                                className="admin-select admin-move-select"
+                                                value={p.categoryId}
+                                                disabled={busy || categories.length < 2}
+                                                title="Move to another category"
+                                                onChange={(e) =>
+                                                    moveToCategory(
+                                                        p,
+                                                        Number(e.target.value)
+                                                    )
+                                                }
+                                            >
+                                                {categories.map((c) => (
+                                                    <option key={c.id} value={c.id}>
+                                                        {c.tabTitle}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </td>
                                         <td>
                                             {formatPrice(p)}
                                             {typeof p.discountPrice === "number" &&
@@ -383,7 +540,8 @@ const ProductsPage = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
+                                    );
+                                })}
                             </tbody>
                         </table>
                     )}
