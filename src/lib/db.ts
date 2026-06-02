@@ -16,6 +16,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import type { Menu, Category, Product } from "./menu-types";
 import { menuJsonPath } from "./server-paths";
+import { getMenuStore } from "./menu-store";
 
 function dataFile(): string {
     return menuJsonPath();
@@ -36,6 +37,12 @@ const SEED_FILE = path.join(
 let writeLock: Promise<void> = Promise.resolve();
 
 async function ensureDataFile(): Promise<void> {
+    const store = await getMenuStore();
+    if (store) {
+        // KV-backed deployments don't need a local seed file.
+        // We'll seed into KV on first read instead.
+        return;
+    }
     const DATA_FILE = dataFile();
     try {
         await fs.access(DATA_FILE);
@@ -130,6 +137,58 @@ function migrateMenu(menu: Menu): boolean {
 }
 
 export async function readMenu(): Promise<Menu> {
+    const store = await getMenuStore();
+    if (store) {
+        const key = "spotcaffe:menu";
+        let raw = await store.get(key);
+        if (!raw) {
+            // Seed KV with the same JSON seed used locally.
+            let seed: Menu = [];
+            try {
+                const seedRaw = await fs.readFile(SEED_FILE, "utf-8");
+                seed = JSON.parse(seedRaw) as Menu;
+            } catch {
+                seed = [];
+            }
+            const now = new Date().toISOString();
+            seed = seed.map((cat, idx) => ({
+                ...cat,
+                order: cat.order ?? idx,
+                hidden: cat.hidden ?? false,
+                createdAt: cat.createdAt ?? now,
+                updatedAt: cat.updatedAt ?? now,
+                tabContent: (cat.tabContent ?? []).map((group) => ({
+                    ...group,
+                    tabData: (group.tabData ?? []).map((p, pIdx) => ({
+                        ...p,
+                        order: p.order ?? pIdx,
+                        available: p.available ?? true,
+                        featured: p.featured ?? false,
+                        tags: p.tags ?? [],
+                        createdAt: p.createdAt ?? now,
+                        updatedAt: p.updatedAt ?? now,
+                    })),
+                })),
+            }));
+            raw = JSON.stringify(seed, null, 2);
+            await store.set(key, raw);
+        }
+
+        let menu: Menu;
+        try {
+            menu = JSON.parse(raw) as Menu;
+        } catch {
+            return [];
+        }
+        if (migrateMenu(menu)) {
+            // Best effort persist fixed IDs
+            store.set(key, JSON.stringify(menu, null, 2)).catch(() => {
+                /* ignore */
+            });
+        }
+        return menu;
+    }
+
     await ensureDataFile();
     const DATA_FILE = dataFile();
     const raw = await fs.readFile(DATA_FILE, "utf-8");
@@ -151,6 +210,24 @@ export async function readMenu(): Promise<Menu> {
 }
 
 export async function writeMenu(menu: Menu): Promise<void> {
+    const store = await getMenuStore();
+    if (store) {
+        const key = "spotcaffe:menu";
+        // Serialize writes via a chained promise lock.
+        const previous = writeLock;
+        let release: () => void;
+        writeLock = new Promise<void>((resolve) => {
+            release = resolve;
+        });
+        await previous;
+        try {
+            await store.set(key, JSON.stringify(menu, null, 2));
+        } finally {
+            release!();
+        }
+        return;
+    }
+
     // Serialize writes via a chained promise lock.
     const previous = writeLock;
     let release: () => void;
