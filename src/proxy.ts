@@ -120,15 +120,28 @@ async function handle(req: NextRequest) {
     }
 
     // 2. Mutating admin API routes: protect anything other than GET.
-    const adminApiPrefixes = ["/api/categories", "/api/products", "/api/upload"];
+    const adminApiPrefixes = [
+        "/api/categories",
+        "/api/products",
+        "/api/products/reorder",
+        "/api/upload",
+    ];
     if (adminApiPrefixes.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
         if (req.method !== "GET" && !isAuthed) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
     }
 
-    // 3. /api/auth/me always requires auth check (returns 401 if not authed).
-    //    We let the route itself read the cookie; nothing to do here.
+    // 3. Admin-only read endpoints (full menu leak prevention).
+    if (
+        isAuthed === false &&
+        req.method === "GET" &&
+        (pathname === "/api/categories" ||
+            pathname === "/api/products" ||
+            pathname.startsWith("/api/admin/"))
+    ) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     return NextResponse.next();
 }
@@ -136,10 +149,12 @@ async function handle(req: NextRequest) {
 export const config = {
     matcher: [
         "/admin/:path*",
+        "/api/admin/:path*",
         "/api/categories/:path*",
         "/api/categories",
         "/api/products/:path*",
         "/api/products",
+        "/api/products/reorder",
         "/api/upload/:path*",
         "/api/upload",
     ],

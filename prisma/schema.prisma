@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int       @id
+  tabTitle    String
+  tabClass    String    @default("")
+  tabThumb    String    @default("coffe.png")
+  discount    Int       @default(0)
+  tabId       String
+  nameAr      String?
+  description String?
+  icon        String?
+  order       Int       @default(0)
+  hidden      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+
+  @@index([order])
+}
+
+model Product {
+  id            Int      @id
+  categoryId    Int
+  category      Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  thumb         String   @default("14.jpg")
+  name          String
+  price         Float    @default(0)
+  priceFull     Float    @default(0)
+  leftInfo      String   @default("")
+  rightInfo     String   @default("")
+  description   String?
+  ingredients   String?
+  discountPrice Float?
+  prepTime      String?
+  sizes         Json?
+  addons        Json?
+  tags          Json?
+  order         Int      @default(0)
+  available     Boolean  @default(true)
+  featured      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([categoryId, order])
+}
+
+model AdminCredential {
+  id           Int      @id @default(1)
+  username     String
+  salt         String
+  passwordHash String
+  updatedAt    DateTime @updatedAt
+}
