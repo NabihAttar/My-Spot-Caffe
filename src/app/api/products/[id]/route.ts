@@ -17,6 +17,7 @@ import {
     sortedCategoryProducts,
 } from "@/lib/db";
 import type { Product } from "@/lib/menu-types";
+import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -36,6 +37,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext) {
 }
 
 export async function PATCH(req: NextRequest, ctx: RouteContext) {
+    try {
     const { id } = await ctx.params;
     let body: (Partial<Product> & { categoryId?: number }) | undefined;
     try {
@@ -105,9 +107,13 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
     return NextResponse.json({
         data: { ...after.product, categoryId: after.category.id },
     });
+    } catch (err) {
+        return menuPersistenceErrorResponse(err);
+    }
 }
 
 export async function DELETE(_req: NextRequest, ctx: RouteContext) {
+    try {
     const { id } = await ctx.params;
     const menu = await readMenu();
     let deleted = false;
@@ -125,4 +131,7 @@ export async function DELETE(_req: NextRequest, ctx: RouteContext) {
     if (!deleted) return NextResponse.json({ error: "Not found" }, { status: 404 });
     await writeMenu(menu);
     return NextResponse.json({ ok: true });
+    } catch (err) {
+        return menuPersistenceErrorResponse(err);
+    }
 }

@@ -2,18 +2,16 @@
  * Persisted admin credentials.
  *
  * When the admin updates the username / password from the Settings page we
- * store the result in `data/admin-credentials.json` locally, or under
- * `os.tmpdir()` on Vercel (see `server-paths.ts`). Passwords are salted +
- * SHA-256 hashed; the plain-text value is never written to disk.
- *
- * If the file does not exist the auth layer falls back to the ADMIN_USERNAME
- * and ADMIN_PASSWORD environment variables (existing behavior preserved).
+ * store the result in durable storage (Redis/Blob on Vercel, or
+ * data/admin-credentials.json locally). Passwords are salted + SHA-256 hashed.
  */
 
 import { promises as fs } from "fs";
 import path from "path";
 import { createHash, randomBytes, timingSafeEqual } from "crypto";
-import { adminCredentialsJsonPath } from "./server-paths";
+import { adminCredentialsJsonPath, isVercelServerless } from "./server-paths";
+import { CREDENTIALS_STORAGE_KEY, getMenuStore } from "./menu-store";
+import { MenuPersistenceError } from "./db";
 
 function credFile(): string {
     return adminCredentialsJsonPath();
@@ -21,12 +19,11 @@ function credFile(): string {
 
 export interface StoredCredentials {
     username: string;
-    salt: string;          // hex
-    passwordHash: string;  // hex(sha256(salt + password))
-    updatedAt: string;     // ISO timestamp
+    salt: string;
+    passwordHash: string;
+    updatedAt: string;
 }
 
-// Lightweight in-memory cache to avoid hitting the disk on every login.
 let cache: StoredCredentials | null = null;
 let cacheReady = false;
 let writeLock: Promise<void> = Promise.resolve();
@@ -35,9 +32,8 @@ function hashPassword(password: string, salt: string): string {
     return createHash("sha256").update(`${salt}:${password}`).digest("hex");
 }
 
-async function loadFromDisk(): Promise<StoredCredentials | null> {
+function parseStoredCredentials(raw: string): StoredCredentials | null {
     try {
-        const raw = await fs.readFile(credFile(), "utf-8");
         const parsed = JSON.parse(raw) as Partial<StoredCredentials>;
         if (
             typeof parsed.username === "string" &&
@@ -52,12 +48,31 @@ async function loadFromDisk(): Promise<StoredCredentials | null> {
             };
         }
     } catch {
-        // file missing or invalid → use env-var fallback
+        /* invalid */
     }
     return null;
 }
 
-/** Read the stored credentials (cached). Returns null when the file is missing. */
+async function loadFromDisk(): Promise<StoredCredentials | null> {
+    const store = await getMenuStore();
+    if (store) {
+        const raw = await store.get(CREDENTIALS_STORAGE_KEY);
+        if (!raw) return null;
+        return parseStoredCredentials(raw);
+    }
+
+    if (isVercelServerless()) {
+        return null;
+    }
+
+    try {
+        const raw = await fs.readFile(credFile(), "utf-8");
+        return parseStoredCredentials(raw);
+    } catch {
+        return null;
+    }
+}
+
 export async function getStoredCredentials(): Promise<StoredCredentials | null> {
     if (cacheReady) return cache;
     cache = await loadFromDisk();
@@ -65,7 +80,6 @@ export async function getStoredCredentials(): Promise<StoredCredentials | null> 
     return cache;
 }
 
-/** Persist new credentials, overwriting any previous file. */
 export async function saveCredentials(
     username: string,
     password: string
@@ -76,8 +90,8 @@ export async function saveCredentials(
         release = resolve;
     });
     await previous;
+
     try {
-        await fs.mkdir(path.dirname(credFile()), { recursive: true });
         const salt = randomBytes(16).toString("hex");
         const passwordHash = hashPassword(password, salt);
         const data: StoredCredentials = {
@@ -86,7 +100,20 @@ export async function saveCredentials(
             passwordHash,
             updatedAt: new Date().toISOString(),
         };
-        await fs.writeFile(credFile(), JSON.stringify(data, null, 2), "utf-8");
+        const payload = JSON.stringify(data, null, 2);
+
+        const store = await getMenuStore();
+        if (store) {
+            await store.set(CREDENTIALS_STORAGE_KEY, payload);
+        } else if (isVercelServerless()) {
+            throw new MenuPersistenceError(
+                "On Vercel, add Upstash Redis or Vercel Blob in Project → Storage, connect it to this app, then redeploy."
+            );
+        } else {
+            await fs.mkdir(path.dirname(credFile()), { recursive: true });
+            await fs.writeFile(credFile(), payload, "utf-8");
+        }
+
         cache = data;
         cacheReady = true;
         return data;
@@ -95,7 +122,6 @@ export async function saveCredentials(
     }
 }
 
-/** Timing-safe password verification against a stored credential record. */
 export function verifyStoredPassword(
     stored: StoredCredentials,
     password: string

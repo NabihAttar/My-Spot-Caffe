@@ -15,8 +15,18 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Menu, Category, Product } from "./menu-types";
-import { menuJsonPath } from "./server-paths";
-import { getMenuStore } from "./menu-store";
+import { isVercelServerless, menuJsonPath } from "./server-paths";
+import { getMenuStore, MENU_STORAGE_KEY } from "./menu-store";
+
+export class MenuPersistenceError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = "MenuPersistenceError";
+    }
+}
+
+const VERCEL_STORAGE_HINT =
+    "On Vercel, add Upstash Redis or Vercel Blob in Project → Storage, connect it to this app, then redeploy.";
 
 function dataFile(): string {
     return menuJsonPath();
@@ -36,48 +46,59 @@ const SEED_FILE = path.join(
 
 let writeLock: Promise<void> = Promise.resolve();
 
+async function loadSeedMenu(): Promise<Menu> {
+    let seed: Menu = [];
+    try {
+        const raw = await fs.readFile(SEED_FILE, "utf-8");
+        seed = JSON.parse(raw) as Menu;
+    } catch {
+        seed = [];
+    }
+
+    const now = new Date().toISOString();
+    return seed.map((cat, idx) => ({
+        ...cat,
+        order: cat.order ?? idx,
+        hidden: cat.hidden ?? false,
+        createdAt: cat.createdAt ?? now,
+        updatedAt: cat.updatedAt ?? now,
+        tabContent: (cat.tabContent ?? []).map((group) => ({
+            ...group,
+            tabData: (group.tabData ?? []).map((p, pIdx) => ({
+                ...p,
+                order: p.order ?? pIdx,
+                available: p.available ?? true,
+                featured: p.featured ?? false,
+                tags: p.tags ?? [],
+                createdAt: p.createdAt ?? now,
+                updatedAt: p.updatedAt ?? now,
+            })),
+        })),
+    }));
+}
+
 async function ensureDataFile(): Promise<void> {
-    const store = await getMenuStore();
-    if (store) {
-        // KV-backed deployments don't need a local seed file.
-        // We'll seed into KV on first read instead.
+    if (isVercelServerless()) {
+        // Never write menu JSON under /tmp on Vercel — it resets and reverts admin edits.
         return;
     }
+    const store = await getMenuStore();
+    if (store) return;
     const DATA_FILE = dataFile();
     try {
         await fs.access(DATA_FILE);
     } catch {
-        // Seed from the existing JSON used by the public menu so first run is consistent.
         await fs.mkdir(dataDir(), { recursive: true });
-        let seed: Menu = [];
-        try {
-            const raw = await fs.readFile(SEED_FILE, "utf-8");
-            seed = JSON.parse(raw) as Menu;
-        } catch {
-            seed = [];
-        }
-        // Normalize seed with admin-friendly defaults.
-        const now = new Date().toISOString();
-        seed = seed.map((cat, idx) => ({
-            ...cat,
-            order: cat.order ?? idx,
-            hidden: cat.hidden ?? false,
-            createdAt: cat.createdAt ?? now,
-            updatedAt: cat.updatedAt ?? now,
-            tabContent: (cat.tabContent ?? []).map((group) => ({
-                ...group,
-                tabData: (group.tabData ?? []).map((p, pIdx) => ({
-                    ...p,
-                    order: p.order ?? pIdx,
-                    available: p.available ?? true,
-                    featured: p.featured ?? false,
-                    tags: p.tags ?? [],
-                    createdAt: p.createdAt ?? now,
-                    updatedAt: p.updatedAt ?? now,
-                })),
-            })),
-        }));
+        const seed = await loadSeedMenu();
         await fs.writeFile(DATA_FILE, JSON.stringify(seed, null, 2), "utf-8");
+    }
+}
+
+function parseMenu(raw: string): Menu {
+    try {
+        return JSON.parse(raw) as Menu;
+    } catch {
+        return [];
     }
 }
 
@@ -139,65 +160,30 @@ function migrateMenu(menu: Menu): boolean {
 export async function readMenu(): Promise<Menu> {
     const store = await getMenuStore();
     if (store) {
-        const key = "spotcaffe:menu";
-        let raw = await store.get(key);
+        let raw = await store.get(MENU_STORAGE_KEY);
         if (!raw) {
-            // Seed KV with the same JSON seed used locally.
-            let seed: Menu = [];
-            try {
-                const seedRaw = await fs.readFile(SEED_FILE, "utf-8");
-                seed = JSON.parse(seedRaw) as Menu;
-            } catch {
-                seed = [];
-            }
-            const now = new Date().toISOString();
-            seed = seed.map((cat, idx) => ({
-                ...cat,
-                order: cat.order ?? idx,
-                hidden: cat.hidden ?? false,
-                createdAt: cat.createdAt ?? now,
-                updatedAt: cat.updatedAt ?? now,
-                tabContent: (cat.tabContent ?? []).map((group) => ({
-                    ...group,
-                    tabData: (group.tabData ?? []).map((p, pIdx) => ({
-                        ...p,
-                        order: p.order ?? pIdx,
-                        available: p.available ?? true,
-                        featured: p.featured ?? false,
-                        tags: p.tags ?? [],
-                        createdAt: p.createdAt ?? now,
-                        updatedAt: p.updatedAt ?? now,
-                    })),
-                })),
-            }));
+            const seed = await loadSeedMenu();
             raw = JSON.stringify(seed, null, 2);
-            await store.set(key, raw);
+            await store.set(MENU_STORAGE_KEY, raw);
         }
 
-        let menu: Menu;
-        try {
-            menu = JSON.parse(raw) as Menu;
-        } catch {
-            return [];
-        }
+        const menu = parseMenu(raw);
         if (migrateMenu(menu)) {
-            // Best effort persist fixed IDs
-            store.set(key, JSON.stringify(menu, null, 2)).catch(() => {
+            store.set(MENU_STORAGE_KEY, JSON.stringify(menu, null, 2)).catch(() => {
                 /* ignore */
             });
         }
         return menu;
     }
 
-    await ensureDataFile();
-    const DATA_FILE = dataFile();
-    const raw = await fs.readFile(DATA_FILE, "utf-8");
-    let menu: Menu;
-    try {
-        menu = JSON.parse(raw) as Menu;
-    } catch {
-        return [];
+    if (isVercelServerless()) {
+        // No durable store yet — serve the bundled seed menu (read-only on Vercel).
+        return loadSeedMenu();
     }
+
+    await ensureDataFile();
+    const raw = await fs.readFile(dataFile(), "utf-8");
+    const menu = parseMenu(raw);
     if (migrateMenu(menu)) {
         // Persist fixed IDs so future reads are stable. Fire-and-forget is
         // fine — even if the write fails we still return correct data for
@@ -212,8 +198,6 @@ export async function readMenu(): Promise<Menu> {
 export async function writeMenu(menu: Menu): Promise<void> {
     const store = await getMenuStore();
     if (store) {
-        const key = "spotcaffe:menu";
-        // Serialize writes via a chained promise lock.
         const previous = writeLock;
         let release: () => void;
         writeLock = new Promise<void>((resolve) => {
@@ -221,11 +205,15 @@ export async function writeMenu(menu: Menu): Promise<void> {
         });
         await previous;
         try {
-            await store.set(key, JSON.stringify(menu, null, 2));
+            await store.set(MENU_STORAGE_KEY, JSON.stringify(menu, null, 2));
         } finally {
             release!();
         }
         return;
+    }
+
+    if (isVercelServerless()) {
+        throw new MenuPersistenceError(VERCEL_STORAGE_HINT);
     }
 
     // Serialize writes via a chained promise lock.

@@ -12,6 +12,7 @@ import {
     ensureGroup,
 } from "@/lib/db";
 import type { Product, ProductRow } from "@/lib/menu-types";
+import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -34,6 +35,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+    try {
     let body: (Partial<Product> & { categoryId?: number }) | undefined;
     try {
         body = (await req.json()) as Partial<Product> & { categoryId?: number };
@@ -94,4 +96,7 @@ export async function POST(req: NextRequest) {
     await writeMenu(menu);
 
     return NextResponse.json({ data: { ...product, categoryId: category.id } }, { status: 201 });
+    } catch (err) {
+        return menuPersistenceErrorResponse(err);
+    }
 }

@@ -11,6 +11,7 @@ import {
     normalizeActiveCategory,
 } from "@/lib/db";
 import type { Category } from "@/lib/menu-types";
+import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,6 +22,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+    try {
     let body: Partial<Category>;
     try {
         body = (await req.json()) as Partial<Category>;
@@ -65,4 +67,7 @@ export async function POST(req: NextRequest) {
     await writeMenu(menu);
 
     return NextResponse.json({ data: category }, { status: 201 });
+    } catch (err) {
+        return menuPersistenceErrorResponse(err);
+    }
 }

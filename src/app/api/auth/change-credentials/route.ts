@@ -26,6 +26,7 @@ import {
     verifyToken,
 } from "@/lib/auth";
 import { saveCredentials } from "@/lib/credentials";
+import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -110,15 +111,17 @@ export async function POST(req: NextRequest) {
     // If only the username is changing, we still need a password value to
     // hash and store. Fall back to the current one in that case.
     const finalPassword = nextPassword ?? currentPassword;
-    const saved = await saveCredentials(nextUsername, finalPassword);
+    try {
+        const saved = await saveCredentials(nextUsername, finalPassword);
 
-    // Re-issue the cookie with the new username so the active session does
-    // not have to log out and log back in.
-    const newToken = createToken(saved.username);
-    const res = NextResponse.json({
-        ok: true,
-        user: { name: saved.username, updatedAt: saved.updatedAt },
-    });
-    res.cookies.set(AUTH_COOKIE, newToken, cookieOptions());
-    return res;
+        const newToken = createToken(saved.username);
+        const res = NextResponse.json({
+            ok: true,
+            user: { name: saved.username, updatedAt: saved.updatedAt },
+        });
+        res.cookies.set(AUTH_COOKIE, newToken, cookieOptions());
+        return res;
+    } catch (err) {
+        return menuPersistenceErrorResponse(err);
+    }
 }

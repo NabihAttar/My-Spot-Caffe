@@ -12,6 +12,7 @@ import {
     normalizeActiveCategory,
 } from "@/lib/db";
 import type { Category } from "@/lib/menu-types";
+import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,6 +30,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext) {
 }
 
 export async function PATCH(req: NextRequest, ctx: RouteContext) {
+    try {
     const { id } = await ctx.params;
     let body: Partial<Category>;
     try {
@@ -55,9 +57,13 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
     await writeMenu(menu);
 
     return NextResponse.json({ data: cat });
+    } catch (err) {
+        return menuPersistenceErrorResponse(err);
+    }
 }
 
 export async function DELETE(req: NextRequest, ctx: RouteContext) {
+    try {
     const { id } = await ctx.params;
     const force = req.nextUrl.searchParams.get("force") === "1";
 
@@ -86,4 +92,7 @@ export async function DELETE(req: NextRequest, ctx: RouteContext) {
     await writeMenu(menu);
 
     return NextResponse.json({ ok: true });
+    } catch (err) {
+        return menuPersistenceErrorResponse(err);
+    }
 }

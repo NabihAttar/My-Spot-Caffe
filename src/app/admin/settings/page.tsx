@@ -11,11 +11,20 @@ interface ChangeCredsResponse {
     user?: { name?: string };
 }
 
+interface StorageStatus {
+    persistent: boolean;
+    backend: "redis" | "blob" | "filesystem" | null;
+    vercel: boolean;
+    setupRequired: boolean;
+    message: string;
+}
+
 const SettingsPage = () => {
     const [user, setUser] = useState<string | null>(null);
     const [exp, setExp] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
     const [qrUrl, setQrUrl] = useState<string>("");
+    const [storage, setStorage] = useState<StorageStatus | null>(null);
 
     // Change-credentials form state
     const [currentPassword, setCurrentPassword] = useState("");
@@ -33,6 +42,16 @@ const SettingsPage = () => {
                 setExp(data?.user?.exp ?? null);
             })
             .finally(() => setLoading(false));
+
+        fetch("/api/admin/storage-status", { cache: "no-store" })
+            .then((r) => r.json())
+            .then((data: { data?: StorageStatus }) => {
+                if (data?.data) setStorage(data.data);
+            })
+            .catch(() => {
+                /* ignore */
+            });
+
         if (typeof window !== "undefined") {
             setQrUrl(`${window.location.origin}/food-menu`);
         }
@@ -331,12 +350,39 @@ const SettingsPage = () => {
                             </div>
                         </div>
                         <div className="admin-card__body">
+                            {storage?.setupRequired && (
+                                <div
+                                    className="admin-login__alert"
+                                    style={{ marginBottom: 14 }}
+                                >
+                                    <strong>Action required on Vercel:</strong> admin saves will
+                                    reset until you connect persistent storage. In Vercel → your
+                                    project → <strong>Storage</strong>, add{" "}
+                                    <strong>Upstash Redis</strong> or <strong>Vercel Blob</strong>,
+                                    connect it to this project, then redeploy.
+                                </div>
+                            )}
+
+                            {storage && (
+                                <p style={{ margin: "0 0 10px", fontSize: 13.5 }}>
+                                    <span
+                                        className={`admin-badge ${
+                                            storage.persistent
+                                                ? "admin-badge--success"
+                                                : "admin-badge--danger"
+                                        }`}
+                                        style={{ marginRight: 8 }}
+                                    >
+                                        {storage.persistent ? "Persistent" : "Not persistent"}
+                                    </span>
+                                    {storage.message}
+                                </p>
+                            )}
+
                             <p style={{ margin: "0 0 10px", fontSize: 13.5 }}>
-                                Menu data is stored as JSON at{" "}
-                                <code>data/menu.json</code> in your project. It is automatically
-                                seeded from{" "}
-                                <code>public/assets/jsonData/food/FoodCartV4Data.json</code>{" "}
-                                the first time the admin panel runs. Backup this file regularly.
+                                Locally, menu data is saved to <code>data/menu.json</code>. On
+                                Vercel it must use Redis or Blob — the server filesystem is
+                                temporary and old prices come back after a few minutes without it.
                             </p>
                             <p
                                 style={{

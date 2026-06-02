@@ -7,11 +7,13 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { readMenu, writeMenu, reorderProductInCategory } from "@/lib/db";
+import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function PATCH(req: NextRequest) {
+    try {
     let body: { categoryId?: number; productId?: number; direction?: string };
     try {
         body = (await req.json()) as typeof body;
@@ -47,4 +49,7 @@ export async function PATCH(req: NextRequest) {
 
     await writeMenu(menu);
     return NextResponse.json({ ok: true });
+    } catch (err) {
+        return menuPersistenceErrorResponse(err);
+    }
 }
