@@ -1,16 +1,15 @@
 /**
  * POST /api/upload (multipart/form-data, field name "file")
  *
- * Saves uploaded image into /public/assets/img/food/uploads/<timestamp>-<safe-name>
- * and returns its URL. Used by the admin product form image picker.
- *
- * Limitations: 5 MB max, jpg/jpeg/png/webp/gif only. Admin-only (protected by
- * middleware).
+ * Saves uploaded image to Vercel Blob when BLOB_READ_WRITE_TOKEN is set,
+ * otherwise to /public/assets/img/food/uploads/ (local dev only).
  */
 
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
+import { put } from "@vercel/blob";
+import { isVercelServerless } from "@/lib/server-paths";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,8 +47,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Missing 'file' field" }, { status: 400 });
     }
 
-    const bytes = file.size;
-    if (bytes > MAX_BYTES) {
+    if (file.size > MAX_BYTES) {
         return NextResponse.json(
             { error: `File too large (max ${MAX_BYTES / 1024 / 1024} MB)` },
             { status: 413 }
@@ -64,13 +62,36 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
-
     const base = sanitize(file.name.replace(/\.[^.]+$/, "")) || "image";
     const filename = `${Date.now()}-${base}.${ext}`;
-    const filepath = path.join(UPLOAD_DIR, filename);
-
     const buffer = Buffer.from(await file.arrayBuffer());
+
+    const blobToken = process.env.BLOB_READ_WRITE_TOKEN?.trim();
+    if (blobToken || isVercelServerless()) {
+        if (!blobToken) {
+            return NextResponse.json(
+                {
+                    error:
+                        "Image uploads on Vercel require Vercel Blob. Add Blob in Project → Storage and redeploy.",
+                },
+                { status: 503 }
+            );
+        }
+
+        const pathname = `spotcaffe/uploads/${filename}`;
+        const blob = await put(pathname, buffer, {
+            access: "public",
+            token: blobToken,
+            addRandomSuffix: false,
+            allowOverwrite: true,
+            contentType: file.type || `image/${ext === "jpg" ? "jpeg" : ext}`,
+        });
+
+        return NextResponse.json({ url: blob.url, filename: blob.pathname });
+    }
+
+    await fs.mkdir(UPLOAD_DIR, { recursive: true });
+    const filepath = path.join(UPLOAD_DIR, filename);
     await fs.writeFile(filepath, buffer);
 
     const url = `/assets/img/food/uploads/${filename}`;

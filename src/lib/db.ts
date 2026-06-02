@@ -1,15 +1,13 @@
 /**
- * Tiny file-backed JSON "database" for the menu.
+ * Menu persistence layer.
  *
- * We intentionally avoid adding a real DB dependency (sqlite, prisma, etc.).
- * Instead we persist the menu in `data/menu.json` locally (or under
- * `os.tmpdir()` on Vercel — see `server-paths.ts`) and
- * seed it on first read from the existing FoodCartV4Data.json so the public
- * menu and QR menu continue to work even before any admin edit happens.
+ * Priority:
+ * 1. PostgreSQL via Prisma when DATABASE_URL is set (production on Vercel)
+ * 2. Upstash Redis / Vercel Blob (legacy fallback)
+ * 3. Local data/menu.json (development)
  *
- * All access goes through readMenu / writeMenu so we have a single source
- * of truth and a simple in-memory write lock to avoid concurrent writes
- * corrupting the file.
+ * On Vercel without DATABASE_URL or Redis/Blob, reads fall back to bundled seed
+ * JSON and writes throw MenuPersistenceError.
  */
 
 import { promises as fs } from "fs";
@@ -17,16 +15,15 @@ import path from "path";
 import type { Menu, Category, Product } from "./menu-types";
 import { isVercelServerless, menuJsonPath } from "./server-paths";
 import { getMenuStore, MENU_STORAGE_KEY } from "./menu-store";
+import { MenuPersistenceError } from "./menu-errors";
+import { hasDatabase } from "./prisma";
+import { readMenuFromPrisma, writeMenuToPrisma } from "./menu-prisma";
+import { loadSeedMenu, migrateMenuIds } from "./db-seed";
 
-export class MenuPersistenceError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "MenuPersistenceError";
-    }
-}
+export { MenuPersistenceError } from "./menu-errors";
 
 const VERCEL_STORAGE_HINT =
-    "On Vercel, add Upstash Redis or Vercel Blob in Project → Storage, connect it to this app, then redeploy.";
+    "On Vercel, connect Vercel Postgres (DATABASE_URL) in Project → Storage, run `npx prisma migrate deploy`, then redeploy. Alternatively add Upstash Redis or Vercel Blob.";
 
 function dataFile(): string {
     return menuJsonPath();
@@ -35,53 +32,11 @@ function dataFile(): string {
 function dataDir(): string {
     return path.dirname(dataFile());
 }
-const SEED_FILE = path.join(
-    process.cwd(),
-    "public",
-    "assets",
-    "jsonData",
-    "food",
-    "FoodCartV4Data.json"
-);
 
 let writeLock: Promise<void> = Promise.resolve();
 
-async function loadSeedMenu(): Promise<Menu> {
-    let seed: Menu = [];
-    try {
-        const raw = await fs.readFile(SEED_FILE, "utf-8");
-        seed = JSON.parse(raw) as Menu;
-    } catch {
-        seed = [];
-    }
-
-    const now = new Date().toISOString();
-    return seed.map((cat, idx) => ({
-        ...cat,
-        order: cat.order ?? idx,
-        hidden: cat.hidden ?? false,
-        createdAt: cat.createdAt ?? now,
-        updatedAt: cat.updatedAt ?? now,
-        tabContent: (cat.tabContent ?? []).map((group) => ({
-            ...group,
-            tabData: (group.tabData ?? []).map((p, pIdx) => ({
-                ...p,
-                order: p.order ?? pIdx,
-                available: p.available ?? true,
-                featured: p.featured ?? false,
-                tags: p.tags ?? [],
-                createdAt: p.createdAt ?? now,
-                updatedAt: p.updatedAt ?? now,
-            })),
-        })),
-    }));
-}
-
 async function ensureDataFile(): Promise<void> {
-    if (isVercelServerless()) {
-        // Never write menu JSON under /tmp on Vercel — it resets and reverts admin edits.
-        return;
-    }
+    if (isVercelServerless() || hasDatabase()) return;
     const store = await getMenuStore();
     if (store) return;
     const DATA_FILE = dataFile();
@@ -102,62 +57,20 @@ function parseMenu(raw: string): Menu {
     }
 }
 
-/**
- * One-shot migration: the original seed data used per-category product IDs
- * (each category started its products at id 1). That made the IDs non-unique
- * globally, which:
- *   - made findProduct(id) ambiguous, and
- *   - caused React "duplicate key" warnings on any list that flattens
- *     products across categories (admin dashboard / products table).
- *
- * This function detects duplicates and renumbers them in place. It returns
- * `true` if anything changed so the caller can persist the corrected file.
- */
-function migrateMenu(menu: Menu): boolean {
-    let changed = false;
+function applyIdMigration(menu: Menu): Menu {
+    const migrated = migrateMenuIds(menu);
+    return migrated;
+}
 
-    // 1. Globally-unique product IDs.
-    let maxProductId = 0;
-    for (const cat of menu) {
-        for (const group of cat.tabContent ?? []) {
-            for (const p of group.tabData ?? []) {
-                if (typeof p.id === "number" && p.id > maxProductId) {
-                    maxProductId = p.id;
-                }
-            }
-        }
-    }
-    const seenProductIds = new Set<number>();
-    let nextProductIdLocal = maxProductId + 1;
-    for (const cat of menu) {
-        for (const group of cat.tabContent ?? []) {
-            for (const p of group.tabData ?? []) {
-                if (typeof p.id !== "number" || seenProductIds.has(p.id)) {
-                    p.id = nextProductIdLocal++;
-                    changed = true;
-                }
-                seenProductIds.add(p.id);
-            }
-        }
-    }
-
-    // 2. Globally-unique category IDs (defensive — should already be unique).
-    const seenCategoryIds = new Set<number>();
-    let nextCategoryIdLocal =
-        menu.reduce((m, c) => Math.max(m, c.id || 0), 0) + 1;
-    for (const cat of menu) {
-        if (typeof cat.id !== "number" || seenCategoryIds.has(cat.id)) {
-            cat.id = nextCategoryIdLocal++;
-            cat.tabId = `tab${cat.id}`;
-            changed = true;
-        }
-        seenCategoryIds.add(cat.id);
-    }
-
-    return changed;
+function menuNeedsIdMigration(before: Menu, after: Menu): boolean {
+    return JSON.stringify(before) !== JSON.stringify(after);
 }
 
 export async function readMenu(): Promise<Menu> {
+    if (hasDatabase()) {
+        return readMenuFromPrisma();
+    }
+
     const store = await getMenuStore();
     if (store) {
         let raw = await store.get(MENU_STORAGE_KEY);
@@ -167,8 +80,10 @@ export async function readMenu(): Promise<Menu> {
             await store.set(MENU_STORAGE_KEY, raw);
         }
 
-        const menu = parseMenu(raw);
-        if (migrateMenu(menu)) {
+        let menu = parseMenu(raw);
+        const migrated = applyIdMigration(menu);
+        if (menuNeedsIdMigration(menu, migrated)) {
+            menu = migrated;
             store.set(MENU_STORAGE_KEY, JSON.stringify(menu, null, 2)).catch(() => {
                 /* ignore */
             });
@@ -177,17 +92,15 @@ export async function readMenu(): Promise<Menu> {
     }
 
     if (isVercelServerless()) {
-        // No durable store yet — serve the bundled seed menu (read-only on Vercel).
         return loadSeedMenu();
     }
 
     await ensureDataFile();
     const raw = await fs.readFile(dataFile(), "utf-8");
-    const menu = parseMenu(raw);
-    if (migrateMenu(menu)) {
-        // Persist fixed IDs so future reads are stable. Fire-and-forget is
-        // fine — even if the write fails we still return correct data for
-        // this request and the next read will retry.
+    let menu = parseMenu(raw);
+    const migrated = applyIdMigration(menu);
+    if (menuNeedsIdMigration(menu, migrated)) {
+        menu = migrated;
         writeMenu(menu).catch(() => {
             /* ignore */
         });
@@ -196,6 +109,10 @@ export async function readMenu(): Promise<Menu> {
 }
 
 export async function writeMenu(menu: Menu): Promise<void> {
+    if (hasDatabase()) {
+        return writeMenuToPrisma(menu);
+    }
+
     const store = await getMenuStore();
     if (store) {
         const previous = writeLock;
@@ -206,6 +123,13 @@ export async function writeMenu(menu: Menu): Promise<void> {
         await previous;
         try {
             await store.set(MENU_STORAGE_KEY, JSON.stringify(menu, null, 2));
+        } catch (err) {
+            const detail = err instanceof Error ? err.message : "unknown error";
+            throw new MenuPersistenceError(
+                store.backend === "redis"
+                    ? `Could not save menu to Redis: ${detail}. Check your Upstash Redis connection in Vercel → Storage.`
+                    : `Could not save menu to Vercel Blob: ${detail}. Check your Blob store in Vercel → Storage.`
+            );
         } finally {
             release!();
         }
@@ -216,7 +140,6 @@ export async function writeMenu(menu: Menu): Promise<void> {
         throw new MenuPersistenceError(VERCEL_STORAGE_HINT);
     }
 
-    // Serialize writes via a chained promise lock.
     const previous = writeLock;
     let release: () => void;
     writeLock = new Promise<void>((resolve) => {
@@ -226,12 +149,13 @@ export async function writeMenu(menu: Menu): Promise<void> {
     try {
         await fs.mkdir(dataDir(), { recursive: true });
         await fs.writeFile(dataFile(), JSON.stringify(menu, null, 2), "utf-8");
+    } catch (err) {
+        const detail = err instanceof Error ? err.message : "unknown error";
+        throw new MenuPersistenceError(`Could not save menu file: ${detail}`);
     } finally {
         release!();
     }
 }
-
-// ---------- Convenience helpers used by the API routes ----------
 
 export function nextCategoryId(menu: Menu): number {
     return menu.reduce((max, c) => Math.max(max, c.id), 0) + 1;
@@ -275,7 +199,6 @@ export function ensureGroup(category: Category): void {
     }
 }
 
-/** Products in a category, sorted by display order (lower first). */
 export function sortedCategoryProducts(category: Category): Product[] {
     ensureGroup(category);
     return [...(category.tabContent[0].tabData ?? [])].sort(
@@ -283,7 +206,6 @@ export function sortedCategoryProducts(category: Category): Product[] {
     );
 }
 
-/** Rewrite tabData order fields to 0..n-1 matching sorted positions. */
 export function normalizeProductOrders(category: Category): void {
     ensureGroup(category);
     const sorted = sortedCategoryProducts(category);
@@ -293,10 +215,6 @@ export function normalizeProductOrders(category: Category): void {
     category.tabContent[0].tabData = sorted;
 }
 
-/**
- * Move a product up or down within its category. Returns false if the move
- * is not possible (already at edge or product not in category).
- */
 export function reorderProductInCategory(
     menu: Menu,
     categoryId: number,
@@ -319,7 +237,6 @@ export function reorderProductInCategory(
     return true;
 }
 
-/** Make sure exactly one category has the active "show active" class. */
 export function normalizeActiveCategory(menu: Menu): void {
     const visible = menu
         .filter((c) => !c.hidden)

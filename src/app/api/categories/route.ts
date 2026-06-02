@@ -12,6 +12,7 @@ import {
 } from "@/lib/db";
 import type { Category } from "@/lib/menu-types";
 import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
+import { revalidateMenuPages } from "@/lib/revalidate-menu";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -65,6 +66,7 @@ export async function POST(req: NextRequest) {
     menu.push(category);
     normalizeActiveCategory(menu);
     await writeMenu(menu);
+    revalidateMenuPages();
 
     return NextResponse.json({ data: category }, { status: 201 });
     } catch (err) {

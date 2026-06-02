@@ -21,7 +21,10 @@ export async function GET(req: NextRequest) {
 
         if (isAdmin) {
             // Admins see everything (incl. hidden + unavailable).
-            return NextResponse.json({ data: menu, isAdmin: true });
+            return NextResponse.json(
+                { data: menu, isAdmin: true },
+                { headers: { "Cache-Control": "no-store, max-age=0" } }
+            );
         }
 
         const visible = menu
@@ -37,7 +40,10 @@ export async function GET(req: NextRequest) {
                 })),
             }));
 
-        return NextResponse.json({ data: visible, isAdmin: false });
+        return NextResponse.json(
+            { data: visible, isAdmin: false },
+            { headers: { "Cache-Control": "no-store, max-age=0" } }
+        );
     } catch (err) {
         console.error("[api/menu]", err);
         return NextResponse.json(

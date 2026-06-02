@@ -1,11 +1,13 @@
+import { head, put } from "@vercel/blob";
 import { isVercelServerless } from "./server-paths";
+import { hasDatabase } from "./prisma";
 
 export const MENU_STORAGE_KEY = "spotcaffe:menu";
 export const CREDENTIALS_STORAGE_KEY = "spotcaffe:admin-credentials";
 export const MENU_BLOB_PATHNAME = "spotcaffe/menu.json";
 export const CREDENTIALS_BLOB_PATHNAME = "spotcaffe/admin-credentials.json";
 
-export type StorageBackend = "redis" | "blob" | "filesystem";
+export type StorageBackend = "postgres" | "redis" | "blob" | "filesystem";
 
 export interface MenuStore {
     backend: StorageBackend;
@@ -35,12 +37,10 @@ function blobPathForKey(key: string): string {
 }
 
 async function createRedisStore(): Promise<MenuStore | null> {
-    const cfg = redisEnv();
-    if (!cfg) return null;
-
     try {
         const { Redis } = await import("@upstash/redis");
-        const redis = new Redis({ url: cfg.url, token: cfg.token });
+        const cfg = redisEnv();
+        const redis = cfg ? new Redis({ url: cfg.url, token: cfg.token }) : Redis.fromEnv();
         await redis.ping();
 
         return {
@@ -55,7 +55,9 @@ async function createRedisStore(): Promise<MenuStore | null> {
             },
         };
     } catch (err) {
-        console.error("[menu-store] Redis unavailable:", err);
+        if (redisEnv()) {
+            console.error("[menu-store] Redis unavailable:", err);
+        }
         return null;
     }
 }
@@ -65,22 +67,18 @@ async function createBlobStore(): Promise<MenuStore | null> {
     if (!token) return null;
 
     try {
-        const { list, put } = await import("@vercel/blob");
-
         return {
             backend: "blob",
             async get(key) {
                 const pathname = blobPathForKey(key);
-                const { blobs } = await list({
-                    prefix: pathname,
-                    limit: 10,
-                    token,
-                });
-                const blob = blobs.find((entry) => entry.pathname === pathname);
-                if (!blob) return null;
-                const res = await fetch(blob.url, { cache: "no-store" });
-                if (!res.ok) return null;
-                return res.text();
+                try {
+                    const meta = await head(pathname, { token });
+                    const res = await fetch(meta.url, { cache: "no-store" });
+                    if (!res.ok) return null;
+                    return res.text();
+                } catch {
+                    return null;
+                }
             },
             async set(key, value) {
                 const pathname = blobPathForKey(key);
@@ -129,8 +127,19 @@ export async function getStorageStatus(): Promise<{
     message: string;
     setupRequired: boolean;
 }> {
-    const store = await getMenuStore();
     const vercel = isVercelServerless();
+
+    if (hasDatabase()) {
+        return {
+            persistent: true,
+            backend: "postgres",
+            vercel,
+            setupRequired: false,
+            message: "Menu changes are saved permanently in PostgreSQL (Vercel Postgres / Neon).",
+        };
+    }
+
+    const store = await getMenuStore();
 
     if (store) {
         const label = store.backend === "redis" ? "Upstash Redis" : "Vercel Blob";
@@ -150,7 +159,7 @@ export async function getStorageStatus(): Promise<{
             vercel,
             setupRequired: true,
             message:
-                "Admin saves do not persist on Vercel yet. Add Upstash Redis or Vercel Blob in your Vercel project Storage tab, connect it to this project, then redeploy.",
+                "Admin saves do not persist on Vercel yet. Connect Vercel Postgres (recommended) or Upstash Redis / Vercel Blob in Storage, then redeploy.",
         };
     }
 

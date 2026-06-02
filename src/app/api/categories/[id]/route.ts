@@ -13,6 +13,7 @@ import {
 } from "@/lib/db";
 import type { Category } from "@/lib/menu-types";
 import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
+import { revalidateMenuPages } from "@/lib/revalidate-menu";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -55,6 +56,7 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
 
     normalizeActiveCategory(menu);
     await writeMenu(menu);
+    revalidateMenuPages();
 
     return NextResponse.json({ data: cat });
     } catch (err) {
@@ -90,6 +92,7 @@ export async function DELETE(req: NextRequest, ctx: RouteContext) {
     menu.splice(idx, 1);
     normalizeActiveCategory(menu);
     await writeMenu(menu);
+    revalidateMenuPages();
 
     return NextResponse.json({ ok: true });
     } catch (err) {

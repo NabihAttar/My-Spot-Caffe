@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { MenuPersistenceError } from "./db";
+import { isMenuPersistenceError } from "./menu-errors";
 
 export function menuPersistenceErrorResponse(err: unknown): NextResponse {
-    if (err instanceof MenuPersistenceError) {
+    if (isMenuPersistenceError(err)) {
         return NextResponse.json(
             {
                 error: err.message,
@@ -13,5 +13,10 @@ export function menuPersistenceErrorResponse(err: unknown): NextResponse {
     }
 
     console.error("[menu-persistence]", err);
+
+    if (err instanceof Error && err.message.trim()) {
+        return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+
     return NextResponse.json({ error: "Failed to save menu data" }, { status: 500 });
 }

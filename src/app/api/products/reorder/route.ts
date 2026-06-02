@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readMenu, writeMenu, reorderProductInCategory } from "@/lib/db";
 import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
+import { revalidateMenuPages } from "@/lib/revalidate-menu";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,6 +49,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     await writeMenu(menu);
+    revalidateMenuPages();
     return NextResponse.json({ ok: true });
     } catch (err) {
         return menuPersistenceErrorResponse(err);

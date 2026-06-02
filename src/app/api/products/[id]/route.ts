@@ -18,6 +18,7 @@ import {
 } from "@/lib/db";
 import type { Product } from "@/lib/menu-types";
 import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
+import { revalidateMenuPages } from "@/lib/revalidate-menu";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -101,6 +102,7 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
     product.updatedAt = new Date().toISOString();
 
     await writeMenu(menu);
+    revalidateMenuPages();
 
     // Re-resolve category in case of move.
     const after = findProduct(menu, product.id)!;
@@ -130,6 +132,7 @@ export async function DELETE(_req: NextRequest, ctx: RouteContext) {
     }
     if (!deleted) return NextResponse.json({ error: "Not found" }, { status: 404 });
     await writeMenu(menu);
+    revalidateMenuPages();
     return NextResponse.json({ ok: true });
     } catch (err) {
         return menuPersistenceErrorResponse(err);

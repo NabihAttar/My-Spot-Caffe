@@ -13,6 +13,7 @@ import {
 } from "@/lib/db";
 import type { Product, ProductRow } from "@/lib/menu-types";
 import { menuPersistenceErrorResponse } from "@/lib/menu-persistence";
+import { revalidateMenuPages } from "@/lib/revalidate-menu";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -94,6 +95,7 @@ export async function POST(req: NextRequest) {
 
     category.tabContent[0].tabData.push(product);
     await writeMenu(menu);
+    revalidateMenuPages();
 
     return NextResponse.json({ data: { ...product, categoryId: category.id } }, { status: 201 });
     } catch (err) {

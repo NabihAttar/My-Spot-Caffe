@@ -13,7 +13,7 @@ interface ChangeCredsResponse {
 
 interface StorageStatus {
     persistent: boolean;
-    backend: "redis" | "blob" | "filesystem" | null;
+    backend: "postgres" | "redis" | "blob" | "filesystem" | null;
     vercel: boolean;
     setupRequired: boolean;
     message: string;
@@ -355,11 +355,10 @@ const SettingsPage = () => {
                                     className="admin-login__alert"
                                     style={{ marginBottom: 14 }}
                                 >
-                                    <strong>Action required on Vercel:</strong> admin saves will
-                                    reset until you connect persistent storage. In Vercel → your
-                                    project → <strong>Storage</strong>, add{" "}
-                                    <strong>Upstash Redis</strong> or <strong>Vercel Blob</strong>,
-                                    connect it to this project, then redeploy.
+                                    <strong>Action required on Vercel:</strong> connect{" "}
+                                    <strong>Vercel Postgres</strong> (recommended) or Upstash
+                                    Redis / Vercel Blob in Project → <strong>Storage</strong>,
+                                    run <code>npx prisma migrate deploy</code>, then redeploy.
                                 </div>
                             )}
 

@@ -11,7 +11,7 @@ import path from "path";
 import { createHash, randomBytes, timingSafeEqual } from "crypto";
 import { adminCredentialsJsonPath, isVercelServerless } from "./server-paths";
 import { CREDENTIALS_STORAGE_KEY, getMenuStore } from "./menu-store";
-import { MenuPersistenceError } from "./db";
+import { MenuPersistenceError } from "./menu-errors";
 
 function credFile(): string {
     return adminCredentialsJsonPath();
