@@ -97,21 +97,51 @@ function toCategory(row: {
 }
 
 async function seedIfEmpty(): Promise<void> {
-    const count = await prisma.category.count();
+    let count = 0;
+    try {
+        count = await prisma.category.count();
+    } catch (err) {
+        const detail = err instanceof Error ? err.message : String(err);
+        if (detail.includes("does not exist") || detail.includes("P2021")) {
+            throw new MenuPersistenceError(
+                "Database tables are missing. Run `npx prisma migrate deploy` against your Vercel Postgres DATABASE_URL, then redeploy."
+            );
+        }
+        throw err;
+    }
+
     if (count > 0) return;
+
     const seed = migrateMenuIds(await loadSeedMenu());
+    if (seed.length === 0) {
+        throw new MenuPersistenceError(
+            "Menu seed file is empty. Check public/assets/jsonData/food/FoodCartV4Data.json in the deployment."
+        );
+    }
     await writeMenuToPrisma(seed);
+}
+
+async function loadMenuRows() {
+    return prisma.category.findMany({
+        include: {
+            products: { orderBy: { order: "asc" } },
+        },
+        orderBy: { order: "asc" },
+    });
 }
 
 export async function readMenuFromPrisma(): Promise<Menu> {
     try {
         await seedIfEmpty();
-        const rows = await prisma.category.findMany({
-            include: {
-                products: { orderBy: { order: "asc" } },
-            },
-            orderBy: { order: "asc" },
-        });
+        let rows = await loadMenuRows();
+
+        // Safety net: empty DB (e.g. failed prior seed) → import bundled menu once.
+        if (rows.length === 0) {
+            const seed = migrateMenuIds(await loadSeedMenu());
+            await writeMenuToPrisma(seed);
+            rows = await loadMenuRows();
+        }
+
         return rows.map(toCategory);
     } catch (err) {
         const detail = err instanceof Error ? err.message : "unknown error";

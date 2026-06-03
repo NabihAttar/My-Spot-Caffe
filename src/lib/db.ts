@@ -81,6 +81,13 @@ export async function readMenu(): Promise<Menu> {
         }
 
         let menu = parseMenu(raw);
+        if (menu.length === 0) {
+            // Stale/empty Redis or Blob entry — re-import bundled seed menu.
+            menu = await loadSeedMenu();
+            await store.set(MENU_STORAGE_KEY, JSON.stringify(menu, null, 2));
+            return menu;
+        }
+
         const migrated = applyIdMigration(menu);
         if (menuNeedsIdMigration(menu, migrated)) {
             menu = migrated;

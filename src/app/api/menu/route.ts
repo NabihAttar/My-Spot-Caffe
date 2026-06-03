@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
             {
                 error: "Could not load menu data",
                 hint:
-                    "On Vercel the menu file is written under /tmp. If this persists, check server logs.",
+                    "Connect Vercel Postgres (DATABASE_URL), ensure migrations ran (`prisma migrate deploy`), then redeploy. Check Admin → Settings for storage status.",
             },
             { status: 500 }
         );
