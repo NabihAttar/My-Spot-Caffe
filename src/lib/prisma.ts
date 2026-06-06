@@ -1,4 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+import { hasResolvedDatabaseUrl, resolveDatabaseEnv } from "./database-env";
+
+resolveDatabaseEnv();
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
@@ -13,5 +16,5 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export function hasDatabase(): boolean {
-    return Boolean(process.env.DATABASE_URL?.trim());
+    return hasResolvedDatabaseUrl();
 }
